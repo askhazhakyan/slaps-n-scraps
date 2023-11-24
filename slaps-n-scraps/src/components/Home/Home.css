@@ -202,7 +202,7 @@ body {
 .next {
     position: absolute;
     top: 70%;
-    left: 68%;
+    left: 65%;
     height: 6%;
     width: 6%;
     border: #222222 solid 3px;
@@ -213,7 +213,7 @@ body {
 .prev {
   position: absolute;
   top: 70%;
-  left: 55%;
+  left: 52%;
   height: 6%;
   width: 6%;
   transform: scaleX(-1);
