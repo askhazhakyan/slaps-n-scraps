@@ -17,12 +17,12 @@ const Navbar = () => {
             </label>
 
             <ul class="menu__box">
-            <li><a class="menu__item" href="/#"><img src={HomeLogo} alt="Home" /></a></li>
-            <li><a class="menu__item" href="/#"><img src={SlapsLogo} alt="Slaps" /></a></li>
-            <li><a class="menu__item" href="/#"><img src={ScrapsLogo} alt="Scraps" /></a></li>
+            <li><a class="menu__item" id='home' href="/"><img src={HomeLogo} alt="Home" /></a></li>
+            <li><a class="menu__item" href="/polls"><img src={PollLogo} alt="User Polls" /></a></li>
+            <li><a class="menu__item" href="/slaps"><img src={SlapsLogo} alt="Slaps" /></a></li>
+            <li><a class="menu__item" href="/scraps"><img src={ScrapsLogo} alt="Scraps" /></a></li>
             <li><a class="menu__item" href="/#"><img src={ReviewLogo} alt="Reviews" /></a></li>
-            <li><a class="menu__item" href="/#"><img src={PollLogo} alt="User Polls" /></a></li>
-            <li><a class="menu__item" href="/#"><img src={BlogLogo} alt="Blog" /></a></li>
+            <li><a class="menu__item" href="/blog"><img src={BlogLogo} alt="Blog" /></a></li>
             <li><a class="menu__item" href="/#"><img src={InfoLogo} alt="Info" /></a></li>
             </ul>
         </div>

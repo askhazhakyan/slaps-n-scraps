@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Mohave:ital@1&display=swap');
+
+body {
+  overflow: hidden;
+}
+
+.siteLogo {
+  position: absolute;
+  font-size: 4vw;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -2vw;
+}
+
+.siteLogo span {
+  position: relative;
+  color: #FE5F55;
+  left: 0.60vw;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.scrapsPageTitle {
+  position: absolute;
+  left: 5vw;
+  top: 4vw;
+  font-size: 3.5vw;
+}
+
+.scrapsPageTitle span {
+  position: relative;
+  color: #FE5F55;
+  padding: 0.5vw;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.scrapsContainer {
+  position: absolute;
+  display: flex;
+  display: inline-block;
+  width: 100vw;
+  height: 100vh;
+  top: 25%;
+  z-index: -1;
+  overflow-x: auto;
+}
+
+.songImage {
+  height: 12vw;
+  width: 12vw;
+  filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
+}
+
+.scrapsInfo {
+  display: flex;
+  flex-direction: row-reverse;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100vw;
+}
+
+.scrapCard {
+  width: 23vw;
+  display: inline-block;
+  margin-right: 2vw;
+  position: relative;
+}
+
+.scrapsRatingsBar {
+  position: relative;
+  width: 10vw;
+  height: 0.45vw;
+  background-color: #D3D3D3;
+  border-radius: 5px;
+  margin: 2% auto;
+}
+
+.scrapsBar,
+.scrapsFilled {
+  border-radius: 5px;
+}
+
+.scrapsBar {
+  background-color: #D3D3D3;
+  z-index: 1;
+}
+
+.scrapsFilled {
+  background-color: #FE5F55;
+  height: 100%;
+  border-radius: 5px;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+.percentage {
+  position: absolute;
+  top: 99%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.15vw;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.scrapContainerHeader {
+  position: relative;
+  z-index: -1;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: -2vh;
+}
+
+.scrapSongTitle {
+  font-size: 1.25vw;
+  filter: drop-shadow(1px 3px 3.5px rgba(0, 0, 0, 0.3));
+}
+
+.scrapArtistTitle{
+  filter: drop-shadow(1px 3px 2px rgba(0, 0, 0, 0.3));
+}
+
+.scrapImage {
+  height: 52%;
+  width: 52%;
+}
+
+.scrapSongLink {
+  position: absolute;
+  bottom: -19%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.25vw;
+  font-weight: bolder;
+}
+
+.scrapSongLink a:link {
+  color: #FE5F55;
+  text-decoration: none;
+  border: #FE5F55 0.25vw solid;
+  border-radius: 0.35vw;
+  padding: 0.45vw;
+}
+
+.scrapSongLink a:visited {
+  color: #FE5F55;
+  text-decoration: none;
+}
+
+.scrapSongLink a:hover {
+  color: #32e063;
+  border-color: #32e063;
+  font-size: 1.35vw;
+  text-decoration: none;
+  transition: 0.4s ease-in-out;
+}
+
+.scraps-pulsing-text{
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  animation: pulse ease-in-out 2s infinite;
+  z-index: 2;
+  font-size: 55px;
+  color: #FE5F55;
+  filter: drop-shadow(10px 10px 2.5px rgba(0, 0, 0, 0.25));
+  font-variant: all-small-caps;
+  font-weight: 800;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: .8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: .8;
+  }
+}

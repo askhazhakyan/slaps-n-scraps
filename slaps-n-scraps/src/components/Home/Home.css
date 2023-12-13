@@ -1,12 +1,9 @@
-/* Import Mohave font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Mohave:ital@1&display=swap');
 
-/* Set body overflow to hidden to prevent scrolling */
 body {
   overflow: hidden;
 }
 
-/* Title styling */
 .title {
   position: absolute;
   font-size: 40px;
@@ -14,7 +11,8 @@ body {
   top: -4%;
 }
 
-.title span {
+.title span,
+.pageTitle span {
   position: relative;
   color: #FE5F55;
   font-size: 56px;
@@ -23,7 +21,6 @@ body {
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
-/* Semicircle styling for circular background */
 .semicircle {
   position: absolute;
   left: -40%;
@@ -39,7 +36,6 @@ body {
   align-items: center;
 }
 
-/* Pin styling */
 .pin {
   position: absolute;
   height: 100px;
@@ -53,7 +49,6 @@ body {
   z-index: 1;
 }
 
-/* Cover image styling */
 .cover img {
   border: 5px solid rgba(245, 245, 255, 0.9);
   border-radius: 50%;
@@ -63,7 +58,6 @@ body {
   animation: rotation 28s infinite linear;
 }
 
-/* Info section styling */
 .info {
   position: absolute;
   margin: auto;
@@ -75,7 +69,6 @@ body {
   align-items: center;
 }
 
-/* Header styling */
 .header {
   position: absolute;
   top: -10%;
@@ -83,7 +76,6 @@ body {
   font-variant: all-small-caps;
 }
 
-/* Footer styling */
 .footer {
   position: absolute;
   white-space: nowrap;
@@ -93,7 +85,6 @@ body {
   transform: translateY(-50%);
 }
 
-/* Screen container styling */
 .screen {
   position: absolute;
   background-color: #222222;
@@ -110,7 +101,6 @@ body {
   border-radius: 10px;
 }
 
-/* ScreenInfo container styling */
 .screenInfo {
   background-color: #f5f5ff;
   height: 150px;
@@ -121,7 +111,6 @@ body {
   position: relative;
 }
 
-/* Song title container styling */
 .songTitleContainer {
   position: absolute;
   top: 10%;
@@ -130,15 +119,15 @@ body {
   overflow: hidden;
 }
 
-/* Song title styling with marquee animation */
 .songTitle {
   font-size: 48px;
   padding: 10px 0;
   white-space: nowrap;
   font-variant: all-small-caps;
+  font-weight: 600;
+  font-style: italic;
 }
 
-/* Artist name container styling */
 .artistNameContainer {
   position: absolute;
   top: 60%;
@@ -147,29 +136,27 @@ body {
   overflow: hidden;
 }
 
-/* Artist name styling with marquee animation */
 .artistName {
   font-size: 38px;
   padding: 10px 0;
   white-space: nowrap;
   font-variant: all-small-caps;
+  font-weight: 600;
+  font-style: italic;
 }
 
-/* Overflow class for applying marquee animation */
 .songTitle.overflow,
 .artistName.overflow {
   animation: marqueeX var(--duration, 15s) linear infinite;
   --width: 100%;
 }
 
-/* Page title styling */
 .pageTitle {
   position: absolute;
   font-size: 48px;
   top: 5%;
 }
 
-/* Volume knob container styling */
 .volumeKnobContainer {
   position: absolute;
   top: 64.5%;
@@ -182,7 +169,6 @@ body {
   width: 30%;
 }
 
-/* Needle container styling */
 .needleContainer {
   position: absolute;
   top: -12%;
@@ -190,7 +176,6 @@ body {
   transform: translateX(-50%);
 }
 
-/* Needle styling */
 .needle {
     transform: rotate(10deg);
     height: 74%;
@@ -198,7 +183,6 @@ body {
     filter: drop-shadow(10px 10px 8px rgba(0, 0, 0, 0.25));
 }
 
-/* Arrow styling */
 .next {
     position: absolute;
     top: 70%;
@@ -209,7 +193,6 @@ body {
     border-radius: 5px;
 }
 
-/* Arrow styling */
 .prev {
   position: absolute;
   top: 70%;
@@ -226,7 +209,6 @@ body {
   cursor: pointer;
 }
 
-/* Pulsing text styling */
 .pulsing-text {
   position: absolute;
   top: 30%;
@@ -241,6 +223,40 @@ body {
   color: #FE5F55;
   filter: drop-shadow(10px 10px 2.5px rgba(0, 0, 0, 0.25));
   font-variant: all-small-caps;
+  font-weight: 800;
+}
+
+.link{
+  position: absolute;
+  top: 42.5vw;
+  left: 63%;
+  transform: translateX(-50%);
+  font-size: 1.25vw;
+  font-weight: bolder;
+}
+
+.link a:link
+{
+   color: #FE5F55;
+   text-decoration: none;
+   border: #FE5F55 0.25vw solid;
+   border-radius: 0.35vw;
+   padding: 0.45vw;
+}
+
+.link a:visited
+{
+   color: #FE5F55;
+   text-decoration: none;
+}
+
+.link a:hover
+{
+   color: #32e063;
+   border-color: #32e063;
+   font-size: 1.35vw;
+   text-decoration: none;
+   transition: 0.4s ease-in-out;
 }
 
 @keyframes pulse {
@@ -255,7 +271,6 @@ body {
   }
 }
 
-/* Rotation animation for cover image */
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -265,7 +280,6 @@ body {
   }
 }
 
-/* Marquee animation for song title and artist name */
 @keyframes marqueeX {
   0% {
     transform: translateX(100%);

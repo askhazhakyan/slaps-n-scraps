@@ -76,6 +76,7 @@ const Home = () => {
           artist: album.artists.map((artist) => artist.name).join(', '),
           coverImage: album.images[0].url,
           releaseDate: album.release_date,
+          link: album.id,
         }));
 
         setNewReleases(releases);
@@ -184,6 +185,16 @@ const Home = () => {
           <img className='prev' src={Arrow} alt="Previous Song" onClick={handlePrevClick} />
           <img className='next' src={Arrow} alt="Next Song" onClick={handleNextClick} />
         </div>
+          {/* Link to song */}
+          <div className="link">
+            <a
+              href={`https://open.spotify.com/album/${newReleases[currentReleaseIndex]?.link}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {'LINK TO ALBUM'}
+            </a>
+          </div>  
       </div>
     </div>
   );

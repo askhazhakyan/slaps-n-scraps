@@ -1,0 +1,418 @@
+@import url('https://fonts.googleapis.com/css2?family=Mohave:ital@1&display=swap');
+
+body {
+  overflow: hidden;
+}
+
+.snsLogo {
+  position: absolute;
+  font-size: 5vw;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -2vw;
+}
+
+.snsLogo span {
+  position: relative;
+  color: #FE5F55;
+  left: 0.60vw;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+  .pollsTitle_Scrap{
+    position: absolute;
+    left: 24vw;
+    top: 12vw;
+    font-size: 6vw;
+    font-variant: small-caps;
+  }
+
+  .pollsTitle_Or {
+    position: absolute;
+    color: #FE5F55;
+    font-size: 3.5vw;
+    top: 6.5vw;
+    left: 50%;
+    transform: translateX(-50%);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .pollsTitle_Slap{
+    position: absolute;
+    left: 65vw;
+    top: 12vw;
+    font-size: 6vw;
+    font-variant: small-caps;
+  }
+  
+  .songInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .albumCover{
+    position: absolute;
+    top: 15vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .albumCover img {
+    height: 20vw;
+    width: 20vw;
+    filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
+  }
+
+  .songName{
+    position: absolute;
+    top: 38vw;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3vw;
+    white-space: nowrap;
+    font-variant: all-small-caps;
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .artistTitle{
+    position: absolute;
+    top: 39vw;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.75vw;
+    white-space: nowrap;
+    font-variant: all-small-caps;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .scrapsLogo{
+    position: absolute;
+    height: 6vw;
+    width: 8vw;
+    left: 25.35vw;
+    top: 25.75vw;
+  }
+
+  .slapsLogo{
+    position: absolute;
+    height: 6vw;
+    width: 6vw;
+    left: 66vw;
+    top: 26vw;
+  }
+  
+  .songInfo.swipe-left {
+    transform: translateX(-100%);
+  }
+  
+  .songInfo.swipe-right {
+    transform: translateX(100%);
+  }
+
+.linkToSong{
+  position: absolute;
+  top: 44vw;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.25vw;
+  font-weight: bolder;
+}
+
+.linkToSong a:link
+{
+   color: #FE5F55;
+   text-decoration: none;
+   border: #FE5F55 0.25vw solid;
+   border-radius: 0.35vw;
+   padding: 0.45vw;
+}
+
+.linkToSong a:visited
+{
+   color: #FE5F55;
+   text-decoration: none;
+}
+
+.linkToSong a:hover
+{
+   color: #32e063;
+   border-color: #32e063;
+   font-size: 1.35vw;
+   text-decoration: none;
+   transition: 0.4s ease-in-out;
+}
+
+.scrapsButton:hover{
+  cursor: pointer;
+}
+
+.slapsButton:hover{
+  cursor: pointer;
+}
+
+.addSongButton {
+  position: fixed;
+  bottom: 1vw;
+  right: 2vw;
+  background-color: #45a080;
+  color: white;
+  border-radius: 50%;
+  padding: 0.75vw 1.25vw;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-size: 2vw;
+  box-shadow: 6px 0px 6px #cbced1, -6px -6px 6px white;
+  transform: rotate(0deg);
+  transition: background-color 0.75s ease, transform 0.75s ease;
+  transform-origin: center;
+  z-index: -1;
+}
+
+.addSongButton.active{
+  background-color: #FE5F55;
+  transform: rotate(45deg);
+}
+
+.addSongModal {
+  position: fixed;
+  bottom: 12%;
+  right: 2%;
+  display: none;
+  width: 20%;
+  height: 25%;
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+}
+
+.submissionMessage{
+  position: fixed;
+  bottom: 35%;
+  right: 3.5%;
+  font-size: 1.5em;
+  font-weight: 800;
+  font-variant: all-small-caps;
+
+}
+
+.addSongModal.visible {
+  display: block;
+}
+
+.addSongModal.hidden {
+  display: none;
+}
+
+.pollInput{
+  position: absolute;
+  outline: none;
+  border-color: transparent;
+  background: transparent;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1vw 2vw;
+  width: 50%;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  margin-top: 1vw;
+}
+
+
+.formTitle{
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-variant: all-small-caps;
+  font-size: 150%;
+  font-weight: 800;
+  filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.15));
+  white-space: nowrap;
+}
+
+.submitButton, .closeButton {
+  color: white;
+  padding: 0.5vw 1vw;
+  margin-top: 0.25vw;
+  background: #FE5F55;
+  height: 20%;
+  cursor: pointer;
+  transition: 0.5s;
+  font-weight: 800;
+  font-variant: small-caps;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  border-radius: 12px;
+  border: 0;
+}
+
+.submitButton:hover, .closeButton:hover {
+  box-shadow: none;
+}
+
+.submitButton{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15%;
+  background-color: #45a080;
+}
+
+.pollCompleteText{
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translateX(-50%);
+  font-size: 3vw;
+  font-variant: small-caps;
+  font-weight: 600;
+  filter: drop-shadow(2px 6px 2.5px rgba(0, 0, 0, 0.2));
+}
+
+#trnt{
+  position: absolute;
+  margin-left: auto;
+  margin-right:auto;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.trnt_turntable{
+  position: relative;
+  width:78px;
+  margin:auto;
+}
+.trnt_floor{
+  position: absolute;
+  top:4px;
+  left:5px;
+  height:50px;
+  width:70px;
+  border:1px solid rgb(59, 59, 59);
+  background: #5c5c5c;
+  filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
+  
+}
+.trnt_vinyl{
+  background-color: rgb(20, 20, 20);
+  border-radius: 30px;
+  height:60px;
+  width:60px;
+  animation-name: trnt_spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.trnt_wheel{
+  position: absolute;
+  border-radius: 50px;
+  border:1px solid rgb(99, 99, 99);
+}
+
+.trnt_wheel-1{
+  left:4px;
+  top:4px;
+  height: 50px;
+  width: 50px;
+}
+
+.trnt_wheel-2{
+  left:7px;
+  top:7px;
+  height: 44px;
+  width: 44px;
+}
+
+.trnt_wheel-3{
+  left:10px;
+  top:10px;
+  height: 38px;
+  width: 38px;
+}
+
+.trnt_hole{
+  position: absolute;
+  top:29px;
+  left:29px;
+  border-radius: 5px;
+  background-color: rgb(20, 20, 20);
+  height:2px;
+  width:2px;
+  z-index:999;
+}
+.trnt_middle{
+  z-index:99;
+  position: absolute;
+  left:23px;
+  top:23px;
+  height: 14px;
+  width: 14px;
+  border-radius: 50px;
+  background:#FE5F55;
+}
+
+.trnt_cover{
+  position: absolute;
+  height:57px;
+  width: 26px;
+  background-color: rgb(20, 20, 20);
+  top:2px;
+  border-radius: 10px;
+  z-index:9;
+  left:16px;
+}
+
+.trnt_arm{
+  position: absolute;
+  height:35px;
+  width: 0px;
+  top:10px;
+  z-index:999;
+  left:68px;
+  opacity: 1;
+  border: 1.25px solid rgb(255, 255, 255);
+  box-shadow: 1px 0 0px 1px rgba(50, 50, 50, 0.1);
+  border-radius: 3px;
+  animation-name: trnt_arm-move;
+  animation-duration: 10000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform-origin: top;
+}
+
+.trnt_text{
+  position: relative;
+  top: 0.75vw;
+  font-size: 1.5em;
+  font-variant: all-small-caps;
+}
+
+@keyframes trnt_spin {
+  from {
+    transform: rotate(0deg);
+    } to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes trnt_arm-move {
+    0% {
+      transform:rotate(20deg);
+      } 80% {
+        transform:rotate(40deg);
+      }
+      90% {
+        transform:rotate(40deg);
+      }
+      100% {
+        transform:rotate(20deg);
+      }
+    }
