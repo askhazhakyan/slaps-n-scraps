@@ -207,6 +207,9 @@ body {
 .next:hover,
 .prev:hover{
   cursor: pointer;
+  height: 6.25%;
+  width: 6.25%;
+  transition: all 0.2s ease-in-out;
 }
 
 .pulsing-text {

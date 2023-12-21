@@ -23,7 +23,7 @@ const Navbar = () => {
             <li><a class="menu__item" href="/scraps"><img src={ScrapsLogo} alt="Scraps" /></a></li>
             <li><a class="menu__item" href="/#"><img src={ReviewLogo} alt="Reviews" /></a></li>
             <li><a class="menu__item" href="/blog"><img src={BlogLogo} alt="Blog" /></a></li>
-            <li><a class="menu__item" href="/#"><img src={InfoLogo} alt="Info" /></a></li>
+            <li><a class="menu__item" href="/info"><img src={InfoLogo} alt="Info" /></a></li>
             </ul>
         </div>
     </div>

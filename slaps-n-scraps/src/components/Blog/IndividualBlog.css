@@ -1,0 +1,141 @@
+/* Blog Title Styles */
+.blog-title {
+  margin: 0;
+  font-size: 2vw;
+}
+
+/* Album Cover Styles */
+.album-cover-container {
+  position: absolute;
+  display: block;
+  top: 4vw;
+  left: 5vw;
+}
+
+.album-cover-img {
+  width: 15vw;
+  height: 15vw;
+  object-fit: cover;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.type-title {
+  position: absolute;
+  top: -5vw;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 4.5vw;
+  font-variant: all-small-caps;
+  margin-bottom: 10vw;
+}
+
+/* Blog Link Info Styles */
+.blogLinkInfo {
+  position: absolute;
+  text-align: left;
+  left: 22vw;
+  width: 21vw;
+}
+
+.linkTitle {
+  font-size: 1.75vw;
+  font-weight: 800;
+  font-variant: small-caps;
+  font-style: italic;
+}
+
+.linkArtist {
+  font-size: 1.5vw;
+  font-weight: 800;
+  font-variant: small-caps;
+}
+
+.score-container {
+  position: absolute;
+  right: 21vw;
+  top: 8vw;
+  background-size: cover;
+  border-radius: 50%;
+  height: 6vw;
+  width: 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-image{
+  position: absolute;
+  width: 8vw;
+  height: auto;
+  z-index: -1;
+  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.2));
+}
+
+.blog-score {
+  position: relative;
+  font-size: 2.5vw;
+  font-weight: 800;
+  font-style: italic;
+  margin: 0;
+  padding-top: 0.5vw;
+  z-index: 2;
+  left: 50%;
+}
+
+.scoreTitleContainer{
+  display: inline-block;
+}
+
+.scoreTitle{
+  position: absolute;
+  font-size: 2vw;
+  font-weight: 800;
+  font-style: italic;
+  color: #FE5F55;
+	animation: flicker .75s ease-in-out infinite alternate;
+}
+
+.review-container {
+  position: absolute;
+  top: 21vw;
+  left: 5vw;
+  width: 90vw;
+  max-height: 55vh;
+  overflow-y: auto !important;
+}
+
+.review-title {
+  font-size: 3vw;
+  font-weight: 600;
+  font-variant: all-small-caps;
+  font-style: italic;
+}
+
+.review-content {
+  text-align: left;
+  font-size: 1.25vw;
+}
+
+.blog-author {
+  font-size: 1.5vw;
+  font-weight: 600;
+  font-variant: all-small-caps;
+  background-color: #FE5F55;
+  text-align: center;
+}
+
+@keyframes flicker {
+	0% {
+		opacity: 0.5;
+		text-shadow: 2px 2px 10px #FE5F55;
+	}
+	100% {
+		opacity: 1;
+		text-shadow: 2px 2px 20px #FE5F55;
+	}
+}

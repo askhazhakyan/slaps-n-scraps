@@ -364,7 +364,7 @@ const Polls = () => {
             <div class="trnt_hole"></div>
           </div>
         </div>
-        <span className='trnt_text'>Loading</span>
+        <span className='trnt_text'>Loading...</span>
       </div>
     );
   }
@@ -479,7 +479,7 @@ const Polls = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button className='submitButton' type="submit">Add Song</button>
+                <button className='pollSubmitButton' type="submit">Add Song</button>
               </form>
             </div>
           )}

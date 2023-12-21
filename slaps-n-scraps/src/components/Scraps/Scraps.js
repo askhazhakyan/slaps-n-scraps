@@ -108,7 +108,7 @@ const Scraps = () => {
   return (
     <div>
       {/* SCRAPS PILE title */}
-      <h1 className='siteLogo'>SCRAPS <span>PILE</span></h1>
+      <h1 className='siteLogo'>SLAPS <span>N' </span>SCRAPS</h1>
 
       {/* Show scroll message if showMessage is true */}
       {showMessage && (

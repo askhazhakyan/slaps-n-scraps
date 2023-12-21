@@ -1,0 +1,39 @@
+.missionStatement{
+    position: absolute;
+    left: 40%;
+    top: 10vw;
+    width: 40vw;
+}
+
+.missionTitle{
+    text-align: left;
+    font-size: 2vw;
+    font-weight: 800;
+    font-style: italic;
+    font-variant: all-small-caps;
+}
+
+.mission{
+    text-align: justify;
+    font-size: 1.3vw;
+    font-weight: 600;
+    font-variant: small-caps;
+}
+
+.snsInfoLogo{
+    position: absolute;
+    top: 10%;
+    left: 5vw;
+    height: 35vw;
+    width: 35vw;
+    animation: App-logo-spin 15s infinite linear;
+}
+
+@keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

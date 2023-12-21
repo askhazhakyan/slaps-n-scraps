@@ -238,7 +238,7 @@ body {
   white-space: nowrap;
 }
 
-.submitButton, .closeButton {
+.pollSubmitButton, .closeButton {
   color: white;
   padding: 0.5vw 1vw;
   margin-top: 0.25vw;
@@ -253,11 +253,11 @@ body {
   border: 0;
 }
 
-.submitButton:hover, .closeButton:hover {
+.pollSubmitButton:hover, .closeButton:hover {
   box-shadow: none;
 }
 
-.submitButton{
+.pollSubmitButton{
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
