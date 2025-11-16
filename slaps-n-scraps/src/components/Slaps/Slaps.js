@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { firestore } from '../backend/firebase';
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy} from 'firebase/firestore';
+import { useUser, useAuth } from '@clerk/clerk-react';
 import './Slaps.css';
 import Slap from '../../images/slap.png';
 
@@ -10,10 +11,10 @@ const Slaps = () => {
   const [certifiedSlappers, setCertifiedSlappers] = useState([]);
   // Reference to the container for horizontal scroll
   const slappersContainerRef = useRef(null);
-  // State to manage the visibility of the scroll message
-  const [showMessage, setShowMessage] = useState(true);
   // State to manage the search query
   const [searchQuery, setSearchQuery] = useState('');
+  const { user } = useUser();
+  const { signOut } = useAuth();  
 
   // Fetch certified slappers data on mount
   useEffect(() => {
@@ -59,9 +60,6 @@ const Slaps = () => {
           // Sort slappers by timestamp and update state
           slappers.sort((a, b) => b.timestamp - a.timestamp);
           setCertifiedSlappers(slappers);
-
-          // Update showMessage based on the number of slappers
-          setShowMessage(slappers.length > 4);
         });
 
         // Unsubscribe from Firestore when component unmounts
@@ -82,11 +80,6 @@ const Slaps = () => {
     const handleScroll = () => {
       const slappersContainer = slappersContainerRef.current;
       const isScrolledHorizontally = slappersContainer.scrollLeft > 0;
-
-      // Hide the message if horizontal scroll is detected
-      if (isScrolledHorizontally) {
-        setShowMessage(false);
-      }
     };
 
     // Get the slappers container reference
@@ -111,38 +104,24 @@ const Slaps = () => {
   // Render the Slaps component
   return (
     <div className=''>
-      {/* SLAPS N' SCRAPS title */}
-      <h1 className='siteLogo'>SLAPS <span>N'</span> SCRAPS</h1>
-
-      {/* Show scroll message if showMessage is true */}
-      {showMessage && (
-        <div className="slaps-pulsing-text">
-          Scroll To See All Songs
-        </div>
-      )}
+      <title>Slaps N' Scraps | Slaps</title>
 
       {/* Certified Slappers section */}
       <div className="slapsInfo">
         <h2 className='slapsPageTitle'>Certified <span>Slappers</span></h2>
 
-        {/* Search bar */}
-        <div className="search">
+        <div className="slapsSearch">
           <input
             type="text"
-            placeholder=" "
+            placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => document.querySelector(".slapsSearch input").style.width = "150px"} // Expands input on focus
+            onBlur={() => !searchQuery && (document.querySelector(".slapsSearch input").style.width = "0")} // Collapses input if empty
           />
-          <div>
-            <svg>
-              <use xlinkHref="#path"></use>
-            </svg>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'none' }}>
-            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 28" id="path">
-              <path d="M32.9418651,-20.6880772 C37.9418651,-20.6880772 40.9418651,-16.6880772 40.9418651,-12.6880772 C40.9418651,-8.68807717 37.9418651,-4.68807717 32.9418651,-4.68807717 C27.9418651,-4.68807717 24.9418651,-8.68807717 24.9418651,-12.6880772 C24.9418651,-16.6880772 27.9418651,-20.6880772 32.9418651,-20.6880772 L32.9418651,-29.870624 C32.9418651,-30.3676803 33.3448089,-30.770624 33.8418651,-30.770624 C34.08056,-30.770624 34.3094785,-30.6758029 34.4782612,-30.5070201 L141.371843,76.386562" transform="translate(83.156854, 22.171573) rotate(-225.000000) translate(-83.156854, -22.171573)"></path>
-            </symbol>
-          </svg>
+          <button className="btn-search" onClick={() => document.querySelector(".slapsSearch input").focus()}>
+            <i className="fas fa-search"></i>
+          </button>
         </div>
 
         <div className="slappersContainer" ref={slappersContainerRef}>
@@ -152,7 +131,7 @@ const Slaps = () => {
               <div className="slapContainerHeader">
                 <img src={Slap} alt="Slap Logo" className="slapImage" />
               </div>
-              <img className='songImage' src={slapper.coverImage} alt={`${slapper.title} Cover`} />
+              <img className='slapSongImage' src={slapper.coverImage} alt={`${slapper.title} Cover`} />
               <h3 className='slapSongTitle'>{slapper.title}</h3>
               <p className='slapArtistTitle'>{slapper.artist}</p>
 
@@ -160,9 +139,8 @@ const Slaps = () => {
               <div className="slapsRatingsBar">
                 <div className="slapsBar"></div>
                 <div className="slapsFilled" style={{ width: `${slapper.percentage}%` }}></div>
+                <p className='slapsPercentage'>{`${Math.round(slapper.percentage)}%`}</p>
               </div>
-
-              <p className='percentage'>{`${Math.round(slapper.percentage)}%`}</p>
 
               {/* Link to song */}
               <div className="slapperSongLink">

@@ -3,19 +3,26 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@clerk/clerk-react": "^5.53.4",
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
         "axios": "^1.6.0",
+        "bad-words": "^3.0.4",
         "cors": "^2.8.5",
-        "dompurify": "^3.0.6",
+        "dompurify": "^3.3.0",
         "express-session": "^1.17.3",
-        "firebase": "^10.7.0",
-        "node-vibrant": "^3.2.1-alpha.1",
+        "firebase": "^10.14.1",
+        "history": "^5.3.0",
+        "node": "^21.2.0",
+        "node-vibrant": "^4.0.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.17.0",
-        "react-scripts": "^5.0.1",
+        "react-router-dom": "^6.21.3",
+        "react-scripts": "^0.0.0",
+        "react-swipeable": "^7.0.2",
+        "serve": "^14.2.5",
+        "spotify-web-api-js": "^1.5.2",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
@@ -23,12 +30,6 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
     },
     "browserslist": {
         "production": [

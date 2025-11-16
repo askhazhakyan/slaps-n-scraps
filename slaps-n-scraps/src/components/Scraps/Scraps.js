@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { firestore } from '../backend/firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { useUser } from '@clerk/clerk-react';
 import './Scraps.css';
 import Scrap from '../../images/scraps.png';
 
@@ -10,10 +11,9 @@ const Scraps = () => {
   const [certifiedScraps, setCertifiedScraps] = useState([]);
   // Reference to the container for horizontal scroll
   const scrapsContainerRef = useRef(null);
-  // State to manage the visibility of the scroll message
-  const [showMessage, setShowMessage] = useState(true);
   // State to manage the search query
   const [searchQuery, setSearchQuery] = useState('');
+  const { user } = useUser();
 
   // Fetch certified scraps data on mount
   useEffect(() => {
@@ -55,9 +55,6 @@ const Scraps = () => {
           // Sort scraps by timestamp and update state
           scraps.sort((a, b) => b.timestamp - a.timestamp);
           setCertifiedScraps(scraps);
-
-          // Update showMessage based on the number of scraps
-          setShowMessage(scraps.length > 4);
         });
 
         // Unsubscribe from Firestore when component unmounts
@@ -78,11 +75,6 @@ const Scraps = () => {
     const handleScroll = () => {
       const scrapsContainer = scrapsContainerRef.current;
       const isScrolledHorizontally = scrapsContainer.scrollLeft > 0;
-
-      // Hide the message if horizontal scroll is detected
-      if (isScrolledHorizontally) {
-        setShowMessage(false);
-      }
     };
 
     // Get the scraps container reference
@@ -107,38 +99,31 @@ const Scraps = () => {
   // Render the Scraps component
   return (
     <div>
-      {/* SCRAPS PILE title */}
-      <h1 className='siteLogo'>SLAPS <span>N' </span>SCRAPS</h1>
-
-      {/* Show scroll message if showMessage is true */}
+      <title>Slaps N' Scraps | Scraps</title>
+      {/* Show scroll message if showMessage is true
       {showMessage && (
         <div className="scraps-pulsing-text">
           Scroll To See All Songs
         </div>
-      )}
+      )} */}
 
       {/* Certified Scraps section */}
       <div className="scrapsInfo">
         <h2 className='scrapsPageTitle'>Scraps <span>Pile</span></h2>
 
         {/* Search bar */}
-        <div className="search">
+        <div className="scrapsSearch">
           <input
             type="text"
-            placeholder=" "
+            placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => document.querySelector(".scrapsSearch input").style.width = "150px"} // Expands input on focus
+            onBlur={() => !searchQuery && (document.querySelector(".scrapsSearch input").style.width = "0")} // Collapses input if empty
           />
-          <div>
-            <svg>
-              <use xlinkHref="#path"></use>
-            </svg>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'none' }}>
-            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 28" id="path">
-              <path d="M32.9418651,-20.6880772 C37.9418651,-20.6880772 40.9418651,-16.6880772 40.9418651,-12.6880772 C40.9418651,-8.68807717 37.9418651,-4.68807717 32.9418651,-4.68807717 C27.9418651,-4.68807717 24.9418651,-8.68807717 24.9418651,-12.6880772 C24.9418651,-16.6880772 27.9418651,-20.6880772 32.9418651,-20.6880772 L32.9418651,-29.870624 C32.9418651,-30.3676803 33.3448089,-30.770624 33.8418651,-30.770624 C34.08056,-30.770624 34.3094785,-30.6758029 34.4782612,-30.5070201 L141.371843,76.386562" transform="translate(83.156854, 22.171573) rotate(-225.000000) translate(-83.156854, -22.171573)"></path>
-            </symbol>
-          </svg>
+          <button className="btn-search" onClick={() => document.querySelector(".scrapsSearch input").focus()}>
+            <i className="fas fa-search"></i>
+          </button>
         </div>
 
         {/* Container for certified scraps with horizontal scroll */}
@@ -149,7 +134,7 @@ const Scraps = () => {
               <div className="scrapContainerHeader">
                 <img src={Scrap} alt="Scrap Logo" className="scrapImage" />
               </div>
-              <img className='songImage' src={scrap.coverImage} alt={`${scrap.title} Cover`} />
+              <img className='scrapSongImage' src={scrap.coverImage} alt={`${scrap.title} Cover`} />
               <h3 className='scrapSongTitle'>{scrap.title}</h3>
               <p className='scrapArtistTitle'>{scrap.artist}</p>
 
@@ -157,9 +142,8 @@ const Scraps = () => {
               <div className="scrapsRatingsBar">
                 <div className="scrapsBar"></div>
                 <div className="scrapsFilled" style={{ width: `${scrap.percentage}%` }}></div>
+                <p className='scrapsPercentage'>{`${Math.round(scrap.percentage)}%`}</p> 
               </div>
-
-              <p className='percentage'>{`${Math.round(scrap.percentage)}%`}</p>
 
               {/* Link to song */}
               <div className="scrapSongLink">

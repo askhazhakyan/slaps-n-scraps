@@ -8,7 +8,7 @@
 .album-cover-container {
   position: absolute;
   display: block;
-  top: 4vw;
+  top: 6vw;
   left: 5vw;
 }
 
@@ -26,7 +26,7 @@
 
 .type-title {
   position: absolute;
-  top: -5vw;
+  top: -4vw;
   left: 50%;
   transform: translateX(-50%);
   font-size: 4.5vw;
@@ -138,4 +138,97 @@
 		opacity: 1;
 		text-shadow: 2px 2px 20px #FE5F55;
 	}
+}
+
+@media (max-width: 900px) {
+
+  .album-cover-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: -6vw auto 0 auto;
+    text-align: center;
+  }
+
+  .album-cover-img {
+    width: 40vw;
+    height: 40vw;
+  }
+
+  .type-title {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    font-size: 8vw;
+    text-align: center;
+    margin-bottom: 4vw; /* space below title before cover */
+  }
+
+  .blogLinkInfo {
+    position: relative;
+    left: 0;
+    width: 80vw;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .linkTitle {
+    font-size: 5vw;
+  }
+
+  .linkArtist {
+    font-size: 4vw;
+  }
+
+  .blog-author {
+    font-size: 4vw;
+    margin-top: 2vw;
+  }
+
+  .score-container {
+    position: relative;
+    right: 0;
+    top: 0;
+    margin: 5vw auto;
+    height: 18vw;
+    width: 18vw;
+  }
+
+  .score-image {
+    width: 22vw;
+  }
+
+  .blog-score {
+    font-size: 7vw;
+    left: 0;
+    margin-top: 40px;
+    transform: none;
+    padding: 0;
+  }
+
+  .scoreTitle {
+    display: none;
+  }
+
+  .review-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 90vw;
+    margin: 8vw auto;
+    overflow-y: visible !important;
+    max-height: none;
+  }
+
+  .review-title {
+    font-size: 8vw;
+    text-align: center;
+    margin-bottom: 4vw;
+  }
+
+  .review-content {
+    font-size: 3.5vw;
+    line-height: 5vw;
+  }
 }

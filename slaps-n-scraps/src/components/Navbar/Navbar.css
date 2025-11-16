@@ -25,7 +25,7 @@
   width: 1.65vw;
   height: 1.65vw;
   cursor: pointer;
-  z-index: 1;
+  z-index: 3;
 }
 
 .menu__btn > span,
@@ -62,6 +62,7 @@
   background-color: #ECEFF1;
   box-shadow: 0.1vw 0.1vw 0.3vw rgba(0, 0, 0, .4);
   transition-duration: .25s;
+  z-index: 2;
 }
 
 .menu__box::before {
@@ -79,21 +80,23 @@
 }
 
 .menu__item {
-  display: block;
-  padding: 2vw 1.65vw;
-  color: #333;
-  text-decoration: none;
-  transition-duration: .25s;
-  height: 1.9vw;
-  width: 1.9vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5vw;
+  height: 5vw;
+  padding: 0;
   margin-top: 0.25vw;
+  border-radius: 6px;
+}
+
+.menu__item img {
+  width: 1.9vw;
+  height: 1.9vw;
+  display: block;
+  pointer-events: none;
 }
 
 .menu__item:hover {
   background-color: #CFD8DC;
-}
-
-.menu__item img {
-  height: 1.9vw;
-  width: 1.9vw;
 }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { firestore } from '../backend/firebase';
-import { collection, getDocs, addDoc, updateDoc, increment, query,where, writeBatch} from 'firebase/firestore';
+import { collection, getDocs, addDoc, updateDoc, increment, query, where, writeBatch } from 'firebase/firestore';
+import { useSwipeable } from 'react-swipeable';
+import { useUser, useClerk } from '@clerk/clerk-react'; // <-- Clerk hooks
 import axios from 'axios';
 import './Polls.css';
-import Slaps from '../../images/slap.png';
-import Scraps from '../../images/scraps.png';
 
 // The main Polls component responsible for managing and displaying song polls.
 const Polls = () => {
@@ -21,6 +21,16 @@ const Polls = () => {
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [spotifyUrl, setSpotifyUrl] = useState('');
+
+  const { user } = useUser(); // Clerk user
+  const { openSignIn, openSignUp, signOut } = useClerk(); // Clerk auth actions
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleSwipe('left'),
+    onSwipedRight: () => handleSwipe('right'),
+    preventDefaultTouchmoveEvent: true, // Optional: Prevent default behavior on touchmove
+    trackMouse: true, // Optional: Enable swipe detection for mouse events (for desktop)
+  });
 
   // Function to delete outdated user-submitted songs from Firestore
   const deleteOutdatedUserSubmittedSongs = useCallback(async () => {
@@ -102,6 +112,11 @@ const Polls = () => {
         isUserSubmitted: false,
       }));
 
+      // Log the albums/singles and artist names
+      releases.forEach((release) => {
+        console.log(`Album/Single: ${release.title}, Artist(s): ${release.artist}`);
+      });
+
       setAccessToken(accessToken);
       setIsLoading(false);
 
@@ -154,6 +169,11 @@ const Polls = () => {
 
   // Function to handle swipe gestures and update song data in Firestore
   const handleSwipe = async (direction) => {
+    if (!user) {
+      openSignIn(); // Prompt user to sign in if not authenticated
+      return;
+    }
+
     if (!reachedEndOfList) {
       try {
         const currentRelease = allSongs[currentReleaseIndex];
@@ -185,9 +205,11 @@ const Polls = () => {
             likes: direction === 'right' ? 1 : 0,
             dislikes: direction === 'left' ? 1 : 0,
             coverImage: currentRelease.coverImage,
-            link: "https://open.spotify.com/album/"+currentRelease.link,
+            link: currentRelease.isUserSubmitted && getTrackIdFromUrl(currentRelease.link)
+                   ? currentRelease.albumId // <-- store album ID if track
+                   : currentRelease.link,
             timestamp: Date.now(),
-          });
+          });          
         }
 
         // Update the state to trigger re-render
@@ -211,6 +233,10 @@ const Polls = () => {
 
   // Function to toggle the visibility of the add song modal
   const handleAddSong = () => {
+    if (!user) {
+      openSignIn(); // Require authentication to submit songs
+      return;
+    }
     setAddSongModalOpen((prevOpen) => !prevOpen);
     setIsButtonActive((prevActive) => !prevActive);
 
@@ -251,52 +277,37 @@ const Polls = () => {
     const url = event.target.spotifyUrl.value;
 
     try {
-      // Extract the type and ID from the URL
       const { type, id } = getTrackIdFromUrl(url) || getAlbumIdFromUrl(url);
 
       if (!type || !id) {
-        // Handle invalid URL
         console.error('Invalid Spotify URL:', url);
         setSubmissionMessage('Invalid Spotify URL. Please provide a valid track or album URL.');
-        setTimeout(() => {
-          setSubmissionMessage('');
-        }, 3000);
+        setTimeout(() => { setSubmissionMessage(''); }, 3000);
         return;
       }
 
-      // Fetch additional details from Spotify using the provided URL
       const response = await axios.get(`https://api.spotify.com/v1/${type}s/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
+        headers: { 'Authorization': `Bearer ${accessToken}` },
       });
 
       const data = response.data;
 
-      // Extract coverImage and releaseDate based on the type
       let coverImage, releaseDate;
-
       if (type === 'track') {
-        // For tracks, use the track-specific properties
         coverImage = data.album.images && data.album.images.length > 0 ? data.album.images[0].url : null;
         releaseDate = data.album.release_date;
       } else if (type === 'album') {
-        // For albums, use the album-specific properties
         coverImage = data.images && data.images.length > 0 ? data.images[0].url : null;
         releaseDate = data.release_date;
       }
 
-      // Check if coverImage and releaseDate are available
       if (!coverImage || !releaseDate) {
         console.error(`Error fetching additional details: Missing coverImage or releaseDate for ${type}`);
         setSubmissionMessage(`Error fetching additional details: Missing coverImage or releaseDate for ${type}`);
-        setTimeout(() => {
-          setSubmissionMessage('');
-        }, 3000);
+        setTimeout(() => { setSubmissionMessage(''); }, 3000);
         return;
       }
 
-      // Check if the song/album is not already in the userSubmittedSongs array
       const isExists = userSubmittedSongs.some(
         (song) => song.title === data.name && song.artist === data.artists.map((artist) => artist.name).join(', ')
       );
@@ -306,49 +317,31 @@ const Polls = () => {
       );
 
       if (!isExists && !isNewRelease) {
-        // Add the new song/album to the 'userSubmittedSongs' collection in Firestore
         const userSubmittedSongsCollection = collection(firestore, 'userSubmittedSongs');
         await addDoc(userSubmittedSongsCollection, {
           id: data.id,
           title: data.name,
           artist: data.artists.map((artist) => artist.name).join(', '),
           coverImage: coverImage,
-          link: data.id, // Use ID as the link
+          link: type === 'track' ? data.album.id : data.id,
           releaseDate: releaseDate,
           timestamp: Date.now(),
         });
 
-        // Clear the input field using the state setter after successful submission
         setSpotifyUrl('');
-
-        // Reload the page to reflect the newly added song
         window.location.reload();
       } else {
-        // Clear the input field
         setSpotifyUrl('');
-
-        // Set an error message if the song/album already exists
         setSubmissionMessage(`That ${type === 'track' ? 'Song' : 'Album'} Already Exists in the Poll.`);
-
-        // Automatically clear the error message after 3 seconds
-        setTimeout(() => {
-          setSubmissionMessage('');
-        }, 3000);
+        setTimeout(() => { setSubmissionMessage(''); }, 3000);
       }
     } catch (error) {
       console.error('Error fetching additional details:', error);
-
-      // Set a clear error message for the user
       setSubmissionMessage('Error fetching additional details. Please make sure the Spotify URL is correct.');
-
-      // Automatically clear the error message after 3 seconds
-      setTimeout(() => {
-        setSubmissionMessage('');
-      }, 3000);
+      setTimeout(() => { setSubmissionMessage(''); }, 3000);
     }
   };
 
-  // Display loading animation while data is being fetched
   if (isLoading) {
     return (
       <div id="trnt">
@@ -368,11 +361,10 @@ const Polls = () => {
       </div>
     );
   }
-
+  
   return (
     <div>
-      {/* SLAPS N' SCRAPS Header */}
-      <h1 className='snsLogo'>SLAPS <span>N'</span> SCRAPS</h1>
+      <title>Slaps N' Scraps | Polls</title>
   
       {/* Render Loading Animation if Data is Still Loading */}
       {isLoading && (
@@ -398,66 +390,70 @@ const Polls = () => {
       {/* Render Polls Content if Data is Loaded */}
       {!votedOnAllSongs && (
         <>
-          {/* Polls Information Display */}
-          <div className={`pollsInfo ${swipeDirection}`} onTransitionEnd={handleTransitionEnd}>
-            <h2 className='pollsTitle_Scrap'>Scrap</h2>
-            <h2 className='pollsTitle_Or'>OR</h2>
-            <h2 className='pollsTitle_Slap'>Slap</h2>
-          </div>
-
-          {/* Song Information Display */}
-          <div className={`songInfo ${swipeDirection}`} onTransitionEnd={handleTransitionEnd}>
-            <div className="songInfoContainer">
-              {/* Song Title */}
-              <div className="title">
-                <div className={`songName${allSongs[currentReleaseIndex]?.title && allSongs[currentReleaseIndex]?.title.length > 20 ? ' overflow' : ''}`}>
-                  {allSongs[currentReleaseIndex]?.title || 'No songs available'}
-                </div>
-              </div>
-
-              {/* Album Cover */}
-              <div className="albumCover">
-                <img
-                  src={allSongs[currentReleaseIndex]?.coverImage || ''}
-                  alt={allSongs[currentReleaseIndex]?.title + ' Cover'}
-                />
-              </div>
-
-              {/* Artist Information */}
-              <div className="artist">
-                <div className={`artistTitle${allSongs[currentReleaseIndex]?.artist && allSongs[currentReleaseIndex]?.artist.length > 20 ? ' overflow' : ''}`}>
-                  By: {allSongs[currentReleaseIndex]?.artist || 'Unknown Artist'}
-                </div>
-              </div>
-
-              {/* Link to the Song on Spotify */}
-              <div className="linkToSong">
-                <a
-                  href={`https://open.spotify.com/album/${allSongs[currentReleaseIndex]?.link}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {'LINK TO ALBUM'}
-                </a>
+          <div className="poll-container">
+            <div className="poll-left">
+              <h1>Scrap</h1>
+              <div className="scrapsButton" onClick={() => handleSwipe('left')}>
+                <svg className='scrapsLogo' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FE5F54"><path d="m368-592 89-147-59-98q-12-20-34.5-20T329-837l-98 163 137 82Zm387 272-89-148 139-80 64 107q11 17 12 38t-9 39q-10 20-29.5 32T800-320h-45ZM640-40 480-200l160-160v80h190l-58 116q-11 20-30 32t-42 12h-60v80Zm-387-80q-20 0-36.5-10.5T192-158q-8-16-7.5-33.5T194-224l34-56h172v160H253Zm-99-114L89-364q-9-18-8.5-38.5T92-441l16-27-68-41 219-55 55 220-69-42-91 152Zm540-342-219-55 69-41-125-208h141q21 0 39.5 10.5T629-841l52 87 68-42-55 220Z"/></svg>
               </div>
             </div>
-          </div>
 
-          {/* Scrap and Slap Buttons */}
-          <div className="scrapsButton" onClick={() => handleSwipe('left')}>
-            <img src={Scraps} alt="" className="scrapsLogo" />
-          </div>
-          <div className="slapsButton" onClick={() => handleSwipe('right')}>
-            <img src={Slaps} alt="" className="slapsLogo" />
-          </div>
+            <div className="poll-middle">
+              <h1 className='desktop-title'>or</h1>
+              <h1 className='mobile-title'>Slap<span> or </span>Scrap</h1>
+              {/* Song Information Display */}
+              <div className={`songInfo ${swipeDirection}`} onTransitionEnd={handleTransitionEnd}>
+                <div className="songInfoContainer">
+                  {/* Album Cover */}
+                  <div className="albumCover" {...handlers}>
+                    <img
+                      src={allSongs[currentReleaseIndex]?.coverImage || ''}
+                      alt={allSongs[currentReleaseIndex]?.title + ' Cover'}
+                    />
+                  </div>
 
-          {/* Add Song Button */}
-          <button
-            className={`addSongButton ${isButtonActive ? 'active' : ''}`}
-            onClick={handleAddSong}
-          >
-            +
-          </button>
+                  {/* Song Title */}
+                  <div className="pollSongTitle">
+                    <div className={`songName${allSongs[currentReleaseIndex]?.title && allSongs[currentReleaseIndex]?.title.length > 20 ? ' overflow' : ''}`}>
+                      {allSongs[currentReleaseIndex]?.title || 'No songs available'}
+                    </div>
+                  </div>
+
+                  {/* Artist Information */}
+                  <div className="artist">
+                    <div className={`artistTitle${allSongs[currentReleaseIndex]?.artist && allSongs[currentReleaseIndex]?.artist.length > 20 ? ' overflow' : ''}`}>
+                      By: {allSongs[currentReleaseIndex]?.artist || 'Unknown Artist'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+                {/* Link to the Song on Spotify */}
+                <div className="linkToSong">
+                  <a
+                    href={`https://open.spotify.com/album/${allSongs[currentReleaseIndex]?.link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {'LINK TO ALBUM'}
+                  </a>
+              </div>
+            </div>
+
+            <div className="poll-right">
+              <h1>Slap</h1>
+              <div className="slapsButton" onClick={() => handleSwipe('right')}>
+                <svg className='slapsLogo' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FE5F54"><path d="M880-759q0-51-35-86t-86-35v-60q75 0 128 53t53 128h-60ZM240-40q-83 0-141.5-58.5T40-240h60q0 58 41 99t99 41v60Zm162 0q-30 0-56-13.5T303-92L48-465l24-23q19-19 45-22t47 12l116 81v-383q0-17 11.5-28.5T320-840q17 0 28.5 11.5T360-800v537L212-367l157 229q5 8 14 13t19 5h278q33 0 56.5-23.5T760-200v-560q0-17 11.5-28.5T800-800q17 0 28.5 11.5T840-760v560q0 66-47 113T680-40H402Zm38-440v-400q0-17 11.5-28.5T480-920q17 0 28.5 11.5T520-880v400h-80Zm160 0v-360q0-17 11.5-28.5T640-880q17 0 28.5 11.5T680-840v360h-80ZM486-300Z"/></svg>
+              </div>
+
+              {/* Add Song Button */}
+              <button
+                className={`addSongButton ${isButtonActive ? 'active' : ''}`}
+                onClick={handleAddSong}
+              >
+                +
+              </button>
+            </div>
+          </div>
 
           {/* Add Song Modal */}
           {isAddSongModalOpen && (

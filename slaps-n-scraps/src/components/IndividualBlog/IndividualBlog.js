@@ -2,35 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { firestore } from '../backend/firebase';
+import { useUser, useClerk } from '@clerk/clerk-react';
 import DOMPurify from 'dompurify';
 import Slap from '../../images/slap.png';
 import Scrap from '../../images/scraps.png';
 import './IndividualBlog.css';
 
 const IndividualBlogPost = () => {
-  // Get parameters from the URL
   const { title, author } = useParams();
-  const { postId } = useParams();
-  // State to hold the blog post data
   const [post, setPost] = useState(null);
-  // Default collection name
   const defaultCollectionName = 'blogs';
+  const { user } = useUser();
+  const { openSignIn } = useClerk();
 
-  // Fetch blog post data on component mount
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
-        // Check if the combination exists in the editorBlogs collection
         const editorBlogPostsCollection = collection(firestore, 'editorBlogs');
         const editorBlogPostsSnapshot = await getDocs(editorBlogPostsCollection);
         const editorBlogPostData = editorBlogPostsSnapshot.docs
           .map((doc) => doc.data())
           .find((post) => post.title === title && post.author === author);
 
-        // Determine the collection name based on the existence in editorBlogs
         const dynamicCollectionName = editorBlogPostData ? 'editorBlogs' : defaultCollectionName;
 
-        // Retrieve the blog post data from the determined collection
         const blogPostsCollection = collection(firestore, dynamicCollectionName);
         const blogPostsSnapshot = await getDocs(blogPostsCollection);
 
@@ -38,66 +33,66 @@ const IndividualBlogPost = () => {
           .map((doc) => doc.data())
           .find((post) => post.title === title && post.author === author);
 
-        if (postData) {
-          setPost(postData);
-        } else {
-          console.error('Blog post not found.');
-        }
+        if (postData) setPost(postData);
+        else console.error('Blog post not found.');
       } catch (error) {
         console.error('Error fetching individual blog post:', error);
       }
     };
 
     fetchBlogPost();
-  }, [postId, author, title]);
+  }, [author, title]);
 
   if (!post) {
     return (
-        <div id="trnt">
-          <div class="trnt_turntable">
-            <div class="trnt_floor"></div>
-            <div class="trnt_arm"></div>
-            <div class="trnt_vinyl">
-              <div class="trnt_wheel trnt_wheel-1"></div>
-              <div class="trnt_wheel trnt_wheel-2"></div>
-              <div class="trnt_wheel trnt_wheel-3"></div>
-              <div class="trnt_cover"></div>
-              <div class="trnt_middle"></div>
-              <div class="trnt_hole"></div>
-            </div>
+      <div id="trnt">
+        <div className="trnt_turntable">
+          <div className="trnt_floor"></div>
+          <div className="trnt_arm"></div>
+          <div className="trnt_vinyl">
+            <div className="trnt_wheel trnt_wheel-1"></div>
+            <div className="trnt_wheel trnt_wheel-2"></div>
+            <div className="trnt_wheel trnt_wheel-3"></div>
+            <div className="trnt_cover"></div>
+            <div className="trnt_middle"></div>
+            <div className="trnt_hole"></div>
           </div>
-          <span className='trnt_text'>Loading...</span>
         </div>
-      );
+        <span className='trnt_text'>Loading...</span>
+      </div>
+    );
   }
 
-  // Process review content and sanitize
   const reviewContent = post.review.replace(/<br>/g, '<br><br>');
   const sanitizedContent = DOMPurify.sanitize(reviewContent);
-  // Check if the score is between 5 and 8
   const isScoreBetween5And8 = post.score > 5 && post.score < 8;
 
-  // Render the blog post content
+  // Determine which info to display
+  const spotifyInfo = post.spotifyInfo || {};
+  const coverImage = spotifyInfo.coverImage || spotifyInfo.trackCover || spotifyInfo.albumCover || 'default-cover-image-url';
+  const titleText = spotifyInfo.linkTitle || spotifyInfo.trackTitle || spotifyInfo.albumTitle || post.title;
+  const artistText = spotifyInfo.artist || spotifyInfo.trackArtists || spotifyInfo.albumArtists || post.author;
+
+  const isAlbum = !!(spotifyInfo.albumTitle || spotifyInfo.albumCover || spotifyInfo.albumArtists);
+
   return (
     <div>
+      <title>Slaps N' Scraps | Blog</title>
       <div className="blogBody">
-        {/* Album cover image */}
-        <div className="album-cover-container">
-          <img className="album-cover-img" src={post.spotifyInfo?.coverImage || 'default-cover-image-url'} alt="Track / Album Cover" />
-        </div>
-
-        {/* Review section */}
         <section className="header-container">
-          <h2 className="type-title">{post.link.includes('album') ? 'Album Review' : 'Track Review'}</h2>
+          <h2 className="type-title">{isAlbum ? 'Album Review' : 'Track Review'}</h2>
         </section>
 
+        <div className="album-cover-container">
+          <img className="album-cover-img" src={coverImage} alt="Track / Album Cover" />
+        </div>
+
         <section className="blogLinkInfo">
-          <p className="linkTitle">{post.spotifyInfo?.linkTitle}</p>
-          <p className="linkArtist">{post.spotifyInfo?.artist}</p>
+          <p className="linkTitle">{titleText}</p>
+          <p className="linkArtist">{artistText}</p>
           <p className="blog-author">Reviewed By: {post.author}</p>
         </section>
 
-        {/* Spotify information section */}
         <div className={`score-container ${post.score >= 8 ? 'slaps' : post.score <= 5 ? 'scraps' : ''}`}>
           {post.score >= 8 && <img className="score-image" src={Slap} alt="Slap Logo" style={{ top: '-2.5vw' }} />}
           {post.score <= 5 && <img className="score-image" src={Scrap} alt="Scrap Logo" style={{ top: '-2vw' }} />}
@@ -126,11 +121,18 @@ const IndividualBlogPost = () => {
           </div>
         </div>
 
-        {/* Review container */}
         <section className="review-container">
           <p className="review-title">{post.title}</p>
           <p className="review-content" dangerouslySetInnerHTML={{ __html: sanitizedContent }}></p>
-          <p className="timestamp">Posted on: {new Date(post.postTime).toLocaleString()}</p>
+          <p className="timestamp">
+                    Posted on: {new Date(post.postTime).toLocaleString([], { 
+                      year: 'numeric', 
+                      month: 'short', 
+                      day: 'numeric', 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+          </p>
         </section>
       </div>
     </div>

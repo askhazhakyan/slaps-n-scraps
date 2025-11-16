@@ -1,124 +1,107 @@
 @import url('https://fonts.googleapis.com/css2?family=Mohave:ital@1&display=swap');
 
-body {
-  overflow: hidden;
-}
+  
+.poll-container{
+  width: 100%;
+  height: fit-content;
+  min-height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
 
-.snsLogo {
-  position: absolute;
-  font-size: 5vw;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -2vw;
-}
-
-.snsLogo span {
-  position: relative;
-  color: #FE5F55;
-  left: 0.60vw;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
-}
-
-  .pollsTitle_Scrap{
-    position: absolute;
-    left: 24vw;
-    top: 12vw;
-    font-size: 6vw;
-    font-variant: small-caps;
+  h1{
+    font-size: clamp(2.5rem, 2.1795rem + 1.3675vw, 3rem);
+    font-variant: all-small-caps;
+    font-style: italic;
   }
+}
 
-  .pollsTitle_Or {
-    position: absolute;
+.mobile-title{
+  display: none;
+  color: black;
+  text-align: center;
+  span{
     color: #FE5F55;
-    font-size: 3.5vw;
-    top: 6.5vw;
-    left: 50%;
-    transform: translateX(-50%);
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    margin: 0 3vw;
+    font-size: clamp(1.75rem, 2.1795rem + 1.3675vw, 2.25rem);
   }
+}
 
-  .pollsTitle_Slap{
-    position: absolute;
-    left: 65vw;
-    top: 12vw;
-    font-size: 6vw;
-    font-variant: small-caps;
-  }
+.desktop-title{
+  color: #FE5F55;
+}
+
+.poll-middle{
+  width: 50%;
+}
+
+.songInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: fit-content;
+}
   
-  .songInfo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-  }
+.albumCover img {
+  position: relative;
+  width: 100%;
+  width: 300px;
+  height: auto;
+  filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
+}
 
-  .albumCover{
-    position: absolute;
-    top: 15vw;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .albumCover img {
-    height: 20vw;
-    width: 20vw;
-    filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
-  }
+.songName{
+  position: relative;
+  white-space: nowrap;
+  font-size: larger ;
+  font-variant: all-small-caps;
+  font-weight: 600;
+  font-style: italic;
+  width: 100%;
+}
 
-  .songName{
-    position: absolute;
-    top: 38vw;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 3vw;
-    white-space: nowrap;
-    font-variant: all-small-caps;
-    font-weight: 600;
-    font-style: italic;
-  }
+.artistTitle{
+  position: relative;
+  font-variant: all-small-caps;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 20px;
+}
 
-  .artistTitle{
-    position: absolute;
-    top: 39vw;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.75vw;
-    white-space: nowrap;
-    font-variant: all-small-caps;
-    font-weight: 400;
-    font-style: italic;
-  }
+.scrapsLogo{
+  height: auto;
+  width: 50%;
+  min-width: 90px;
+  transition: 0.3s ease;
+}
 
-  .scrapsLogo{
-    position: absolute;
-    height: 6vw;
-    width: 8vw;
-    left: 25.35vw;
-    top: 25.75vw;
-  }
+.scrapsLogo:hover{
+  transform: rotate(120deg);
+}
 
-  .slapsLogo{
-    position: absolute;
-    height: 6vw;
-    width: 6vw;
-    left: 66vw;
-    top: 26vw;
-  }
-  
-  .songInfo.swipe-left {
-    transform: translateX(-100%);
-  }
-  
-  .songInfo.swipe-right {
-    transform: translateX(100%);
-  }
+.slapsLogo{
+  height: auto;
+  width: 50%;
+  min-width: 75px;
+  rotate: 20deg;
+  transition: 0.3s ease;
+}
+
+.slapsLogo:hover{
+  transform: scaleX(-1);
+}
+
+.songInfo.swipe-left {
+  transform: translateX(-100%);
+}
+
+.songInfo.swipe-right {
+  transform: translateX(100%);
+}
 
 .linkToSong{
-  position: absolute;
-  top: 44vw;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.25vw;
   font-weight: bolder;
 }
 
@@ -126,9 +109,9 @@ body {
 {
    color: #FE5F55;
    text-decoration: none;
-   border: #FE5F55 0.25vw solid;
-   border-radius: 0.35vw;
-   padding: 0.45vw;
+   border: #FE5F55 5px solid;
+   border-radius: 10px;
+   padding: 8px 10px;
 }
 
 .linkToSong a:visited
@@ -141,7 +124,6 @@ body {
 {
    color: #32e063;
    border-color: #32e063;
-   font-size: 1.35vw;
    text-decoration: none;
    transition: 0.4s ease-in-out;
 }
@@ -155,9 +137,9 @@ body {
 }
 
 .addSongButton {
-  position: fixed;
-  bottom: 1vw;
+  position: absolute;
   right: 2vw;
+  bottom: 1vw;
   background-color: #45a080;
   color: white;
   border-radius: 50%;
@@ -170,7 +152,6 @@ body {
   transform: rotate(0deg);
   transition: background-color 0.75s ease, transform 0.75s ease;
   transform-origin: center;
-  z-index: -1;
 }
 
 .addSongButton.active{
@@ -183,8 +164,8 @@ body {
   bottom: 12%;
   right: 2%;
   display: none;
-  width: 20%;
-  height: 25%;
+  width: 300px;
+  height: 170px;
   border-radius: 20px;
   padding: 40px;
   box-sizing: border-box;
@@ -217,8 +198,9 @@ body {
   background: transparent;
   left: 50%;
   transform: translateX(-50%);
-  padding: 1vw 2vw;
-  width: 50%;
+  padding: 10px 20px;
+  width: 200px;
+  height: 20px;
   font-size: 14px;
   border-radius: 50px;
   box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
@@ -240,10 +222,10 @@ body {
 
 .pollSubmitButton, .closeButton {
   color: white;
-  padding: 0.5vw 1vw;
-  margin-top: 0.25vw;
+  padding: 5px 10px;
+  margin-top: 25px;
   background: #FE5F55;
-  height: 20%;
+  height: 50px;
   cursor: pointer;
   transition: 0.5s;
   font-weight: 800;
@@ -261,7 +243,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 15%;
+  bottom: 10px;
   background-color: #45a080;
 }
 
@@ -395,24 +377,43 @@ body {
   font-variant: all-small-caps;
 }
 
+@media (max-width: 800px) {
+
+  .poll-left, .poll-right, .poll-middle .desktop-title{
+    display: none;
+  }
+
+  .poll-middle{
+    width: 100%;
+  }
+
+  .mobile-title{
+    display: block;
+    white-space: nowrap;
+  }
+
+}
+
 @keyframes trnt_spin {
   from {
-    transform: rotate(0deg);
-    } to {
-      transform: rotate(360deg);
-    }
+  transform: rotate(0deg);
+  } 
+  to {
+    transform: rotate(360deg);
   }
+}
   
-  @keyframes trnt_arm-move {
-    0% {
-      transform:rotate(20deg);
-      } 80% {
-        transform:rotate(40deg);
-      }
-      90% {
-        transform:rotate(40deg);
-      }
-      100% {
-        transform:rotate(20deg);
-      }
-    }
+@keyframes trnt_arm-move {
+  0%{
+  transform:rotate(20deg);
+  } 
+  80% {
+    transform:rotate(40deg);
+  }
+  90% {
+    transform:rotate(40deg);
+  }
+  100% {
+    transform:rotate(20deg);
+  }
+}

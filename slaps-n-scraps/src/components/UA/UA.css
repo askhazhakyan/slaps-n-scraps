@@ -1,0 +1,140 @@
+.ua-wrapper {
+  position: absolute;
+  top: 1vw;
+  right: 7vw;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.loginButton {
+  background-color: #ffffff;
+  color: #FE5F55;
+  border: 3px solid #FE5F55;
+  border-radius: 5px;
+  padding: 5px 20px;
+  cursor: pointer;
+  font-weight: 800;
+  font-variant: all-small-caps;
+  transition: all 0.35s ease;
+  font-family: 'Mohave', sans-serif;
+  font-size: 16px;
+}
+
+.loginButton:hover {
+  filter: drop-shadow(0px 0px 8px #32e063);
+  border-color: #32e063;
+  color: #32e063;
+  font-size: 18px;
+}
+
+.ua-avatar-image {
+  width: 3vw;
+  max-width: 48px;
+  min-width: 32px;
+  height: 3vw;
+  max-height: 48px;
+  min-height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.ua-avatar-click-area:hover .ua-avatar-image {
+  box-shadow: 0 0 0 2px #32e063, 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.ua-visit-btn {
+  position: absolute;
+  top: 110%;
+  right: 50%;
+  transform: translateX(50%) translateY(-4px) scale(0.98);
+  transform-origin: center center;
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  border-radius: 8px;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.ua-visit-btn.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(50%) translateY(0) scale(1);
+}
+
+.ua-visit-btn button {
+  width: 100%;
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-bottom: 1px solid #cbced1;
+  border-radius: 0;
+  background-color: #f7f7f7;
+  font-variant: all-small-caps;
+  cursor: pointer;
+  transition: box-shadow 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+  text-align: left;
+}
+
+.ua-visit-btn button:last-child {
+  border-bottom: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.ua-visit-btn button:hover {
+  box-shadow: 0 0 8px rgba(50, 224, 99, 0.4);
+  background-color: #34cc5f !important; 
+  color: #fff !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .ua-wrapper {
+    top: 1.5vw;
+    right: 4vw;
+  }
+
+  .ua-avatar-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ua-visit-btn {
+    width: 150px;
+  }
+
+  .ua-visit-btn button {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ua-wrapper {
+    top: 1.5vw;
+    right: 10vw;
+  }
+
+  .ua-avatar-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .ua-visit-btn {
+    width: 100px;
+  }
+
+  .ua-visit-btn button {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+    text-align: center;
+  }
+}
+
+body.profile-page .ua-wrapper {
+  display: none !important;
+}

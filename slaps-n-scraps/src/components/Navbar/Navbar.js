@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { useUser, useAuth } from '@clerk/clerk-react';
+
 import HomeLogo from '../../images/navbar_icons/home_icon.png';
 import SlapsLogo from '../../images/navbar_icons/slaps_icon.png';
 import ScrapsLogo from '../../images/navbar_icons/scraps_icon.png';
@@ -8,26 +11,35 @@ import BlogLogo from '../../images/navbar_icons/blog_icon.png';
 import InfoLogo from '../../images/navbar_icons/info_icon.png';
 
 const Navbar = () => {
+  const { user } = useUser();
+  const { signOut } = useAuth();
+  const menuToggleRef = useRef(null);
+
+  const handleLinkClick = () => {
+    // Uncheck the menu toggle so the menu closes
+    if (menuToggleRef.current) menuToggleRef.current.checked = false;
+  };
+
   return (
     <div>
-        <div class="hamburger-menu">
-            <input id="menu__toggle" type="checkbox" />
-            <label class="menu__btn" for="menu__toggle">
-            <span></span>
-            </label>
+      <div className="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" ref={menuToggleRef} />
+        <label className="menu__btn" htmlFor="menu__toggle">
+          <span></span>
+        </label>
 
-            <ul class="menu__box">
-            <li><a class="menu__item" id='home' href="/"><img src={HomeLogo} alt="Home" /></a></li>
-            <li><a class="menu__item" href="/polls"><img src={PollLogo} alt="User Polls" /></a></li>
-            <li><a class="menu__item" href="/slaps"><img src={SlapsLogo} alt="Slaps" /></a></li>
-            <li><a class="menu__item" href="/scraps"><img src={ScrapsLogo} alt="Scraps" /></a></li>
-            <li><a class="menu__item" href="/editorReview"><img src={ReviewLogo} alt="Reviews" /></a></li>
-            <li><a class="menu__item" href="/blog"><img src={BlogLogo} alt="Blog" /></a></li>
-            <li><a class="menu__item" href="/info"><img src={InfoLogo} alt="Info" /></a></li>
-            </ul>
-        </div>
+        <ul className="menu__box">
+          <li><Link className="menu__item" id='home' to="/" onClick={handleLinkClick}><img src={HomeLogo} alt="Home" /></Link></li>
+          <li><Link className="menu__item" to="/polls" onClick={handleLinkClick}><img src={PollLogo} alt="User Polls" /></Link></li>
+          <li><Link className="menu__item" to="/slaps" onClick={handleLinkClick}><img src={SlapsLogo} alt="Slaps" /></Link></li>
+          <li><Link className="menu__item" to="/scraps" onClick={handleLinkClick}><img src={ScrapsLogo} alt="Scraps" /></Link></li>
+          <li><Link className="menu__item" to="/editorReview" onClick={handleLinkClick}><img src={ReviewLogo} alt="Reviews" /></Link></li>
+          <li><Link className="menu__item" to="/blog" onClick={handleLinkClick}><img src={BlogLogo} alt="Blog" /></Link></li>
+          <li><Link className="menu__item" to="/info" onClick={handleLinkClick}><img src={InfoLogo} alt="Info" /></Link></li>
+        </ul>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -1,11 +1,14 @@
 import React from 'react'
 import Logo from '../../images/logo.PNG'
 import './Info.css'
+import { useUser, useAuth } from '@clerk/clerk-react';
 
 const Info = () => {
+  const { user } = useUser();
+  const { signOut } = useAuth();  
   return (
     <div>
-        <h1 className='siteLogo'>SLAPS <span>N' </span>SCRAPS</h1>
+        <title>Slaps N' Scraps | About</title>
         <div className="missionStatement">
             <p className="missionTitle">Mission Statement:</p>
             <p className="mission">At Slaps and Scraps, we are dedicated to providing a discerning platform for music enthusiasts seeking insightful 

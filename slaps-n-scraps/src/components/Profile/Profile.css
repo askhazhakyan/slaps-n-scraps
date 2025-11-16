@@ -1,0 +1,510 @@
+@import url('https://fonts.googleapis.com/css2?family=Mohave:ital,wght@1,600&display=swap');
+
+:root{
+  --accent: #FE5F55;
+  --accent-2: #32b002;
+  --max-bio-height: 200px;
+  --bio-width-percent: 80%;
+}
+
+.profileContainer {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Mohave', sans-serif;
+  color: #222;
+}
+
+/* LEFT HALF */
+.profileLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5vw;
+  gap: 1.25rem;
+}
+
+/* Avatar */
+.profileAvatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 4px solid #000;
+  box-shadow: 0 0 12px rgba(255,255,255,0.75);
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profileAvatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(50,224,99,0.25);
+}
+
+/* Profile header */
+.profileTitle {
+  margin-top: 0.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.profileTitle span {
+  color: var(--accent);
+  text-shadow: 1px 2px 1px rgba(0, 0, 0, .75);
+}
+
+/* Bio container */
+.profileBioBox {
+  margin-top: 0.25vw;
+  width: var(--bio-width-percent);
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Bio display & textarea - unified height, scroll, centered text */
+.profileBioDisplay,
+.profileBioTextarea {
+  width: 100%;
+  height: var(--max-bio-height);
+  max-height: var(--max-bio-height);
+  min-height: var(--max-bio-height);
+  overflow-y: auto;
+  border-radius: 16px;
+  font-family: 'Mohave', sans-serif;
+  font-size: 1rem;
+  font-weight: 450;
+  line-height: 1.45;
+  text-align: left;
+  color: #111;
+  resize: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  cursor: text;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.bioEditHint {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+/* Word "Edit" */
+.bioEditHint span {
+  margin-right: 6px;
+  transform: translateX(20px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  white-space: nowrap;
+  color: var(--accent-2);
+}
+
+/* Pencil icon */
+.bioEditHint::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%2332b002" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Show on hover */
+.profileBioDisplay.editable:hover .bioEditHint {
+  opacity: 1;
+}
+
+.profileBioDisplay.editable:hover .bioEditHint span {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Textarea focus shadow */
+.profileBioTextarea:focus {
+  box-shadow: 0 0 10px rgba(50, 224, 99, 0.25);
+}
+
+/* Controls row (char count + Save button) */
+.bioControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.bioCharCount {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Save button */
+.profileSaveBioButton {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  border: none;
+  background: var(--accent-2);
+  color: #fff;
+}
+
+.profileSaveBioButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Button row */
+.profileButtonRow {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  width: var(--bio-width-percent);
+}
+
+.profileButtonRow button,
+.profileActionButton {
+  padding: 0.7rem 1.2rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: var(--accent);
+  color: white;
+  transition: all .15s ease;
+  border: none;
+}
+
+.profileButtonRow .manage-btn:hover,
+.profileActionButton.manage:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.98);
+  box-shadow: 0 4px 16px rgba(190, 37, 37, 0.25);
+}
+
+.profileButtonRow .signout-btn:hover,
+.profileActionButton.signout:hover {
+  filter: brightness(0.98);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(190, 37, 37, 0.25);
+}
+
+/* RIGHT HALF */
+.profileRight {
+  flex: 1;
+  padding: 4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Right half header */
+.upf-header {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+  font-variant: all-small-caps;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Search bar container */
+.upf-searchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Search input */
+.upf-searchBar input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 0;
+  padding: 0;
+  color: #36454F;
+  font-size: 16px;
+  font-weight: 600;
+  transition: width 0.4s ease;
+  cursor: pointer;
+}
+
+.upf-searchBar input:focus {
+  width: 140px;
+  border-color: var(--accent);
+}
+
+.upf-searchBar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #FE5F55;
+  font-size: 1.5rem;
+}
+
+.upf-searchBar button:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+.profileRight:not(.ownProfile) .upf-searchBar button {
+  display: none;
+}
+
+/* Search results dropdown */
+.upf-searchResults {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  width: 180px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 4px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.upf-searchItem {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.upf-searchItem:hover {
+  background-color: #f2f2f2;
+}
+
+/* Top Five list container */
+.upf-topFiveList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.upf-artistWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.upf-artistCard {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: radial-gradient(circle at center, #222 60%, #000 100%);
+}
+
+/* Artist image inside vinyl */
+.upf-artistCard img {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upf-artistName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+  width: 140px; /* match vinyl width */
+  word-wrap: break-word;
+}
+
+/* Remove button centered, hidden by default */
+.upf-removeBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+/* Show remove button on hover if user profile */
+.upf-artistCard.userProfile:hover .upf-removeBtn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.upf-artistCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Message when no Top Five artists exist */
+.upf-noArtistsMessage {
+  grid-column: span 3;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+  font-variant: all-small-caps;
+  opacity: 0.7;
+  margin-top: 2rem;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .upf-artistCard {
+    width: 120px;
+    height: 120px;
+  }
+  .upf-artistCard p {
+    bottom: -24px;
+    font-size: 0.85rem;
+  }
+  .upf-removeBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .upf-artistCard {
+    width: 100px;
+    height: 100px;
+  }
+  .upf-artistCard p {
+    bottom: -20px;
+    font-size: 0.8rem;
+  }
+  .upf-removeBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .upf-header {
+    font-size: 1.8rem;
+  }
+
+  .upf-searchBar input:focus {
+    width: 140px;
+  }
+
+  .upf-searchItem img,
+  .upf-artistCard img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .upf-artistCard {
+    width: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  .upf-header {
+    font-size: 1.5rem;
+  }
+
+  .upf-searchBar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .upf-searchItem img,
+  .upf-artistCard img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .upf-artistCard {
+    width: 90px;
+  }
+}
+
+
+.profileBody {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Loading */
+.profileLoadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.profileLoadingText {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  :root { --bio-width-percent: 90%; }
+  .profileContainer { flex-direction: column;}
+  .profileLeft, .profileRight { width: 100%; }
+  .profileAvatar { width: 35vw; height: 35vw; margin-top: 5vw;}
+  .profileTitle { font-size: 5vw; }
+  .profileButtonRow { width: 90%; }
+  .profileBioTextarea, .profileBioDisplay { font-size: 1.05rem; height: var(--max-bio-height); min-height: var(--max-bio-height); max-height: var(--max-bio-height); display: flex; align-items: center; justify-content: center; }
+}
+
+@media (max-width: 600px) {
+  :root { --bio-width-percent: 92%; }
+  .profileAvatar { width: 40vw; height: 40vw; margin-top: 5vw; }
+  .profileTitle { font-size: 6vw; }
+  .profileButtonRow { width: 92%; gap: 0.6rem; }
+  .profileBioTextarea, .profileBioDisplay { font-size: 1rem; height: var(--max-bio-height); min-height: var(--max-bio-height); max-height: var(--max-bio-height); display: flex; align-items: center; justify-content: center; }
+}

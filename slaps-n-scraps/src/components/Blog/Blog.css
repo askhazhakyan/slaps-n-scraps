@@ -121,8 +121,7 @@ body {
 
 .reviewTitleInput,
 .spotifyLinkInput,
-.scoreInput,
-.writerNameInput {
+.scoreInput {
   position: absolute;
   outline: none;
   border-color: transparent;
@@ -136,19 +135,27 @@ body {
   margin-top: 1vw;
 }
 
-.spotifyLinkInput{
+.review-container {
+  position: absolute;
+  top: 21vw;
+  left: 5vw;
+  width: 90vw;
+  max-height: 55vh;
+  overflow-y: auto !important;
+  z-index: 1;
+}
+
+.review-title {
+  font-size: 3vw;
+  font-weight: 600;
+  font-variant: all-small-caps;
+  font-style: italic;
+}
+
+.spotifyLinkInput {
   top: 14%;
-  outline: none;
-  border-color: transparent;
-  background: transparent;
   left: 30%;
-  transform: translateX(-50%);
-  padding: 1vw 2vw;
   width: 50%;
-  font-size: 14px;
-  border-radius: 10px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
-  margin-top: 1vw;
 }
 
 .scoreInput {
@@ -168,24 +175,25 @@ body {
 
 .reviewTitleInput {
   top: 29%;
-  outline: none;
-  border-color: transparent;
-  background: transparent;
   left: 50%;
-  transform: translateX(-50%);
-  padding: 1vw 2vw;
   width: 90%;
-  font-size: 14px;
   font-weight: 800;
-  border-radius: 10px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
-  margin-top: 1vw;
 }
 
 .writerNameInput {
-  top: 72%;
-  width: 25%;
-  left: 82.5%;
+  top: 72.25%;
+  left: 74%;
+  position: absolute;
+  outline: none;
+  border-color: transparent;
+  background: transparent;
+  transform: translateX(-50%);
+  padding: 1vw 2vw;
+  color: black;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 10px;
+  margin-top: 1vw;
 }
 
 .writerNameLabel {
@@ -197,7 +205,7 @@ body {
   font-variant: small-caps;
 }
 
-.scoreErrorText{
+.scoreErrorText {
   position: absolute;
   top: 6%;
   right: 27%;
@@ -234,29 +242,27 @@ body {
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
-.blogContent:hover{
+.blogContent:hover {
   cursor: pointer;
 }
 
 .blogPost {
-  width: 31%; /* Adjust the width to leave space for margins between posts */
-  margin: 0 1%; /* Add a margin between posts */
+  width: 31%;
+  margin: 0 1%;
   margin-bottom: 5%;
   box-sizing: border-box;
   overflow-y: scroll !important;
 }
 
-.blogPost:hover{
-  .blogCoverImage{
-    width: 41%;
-    height: 41%;
-    filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
-    transition: all 0.5s ease-in-out;
-  }
-  .blogReviewTitle{
-    filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
-    transition: all 0.5s ease-in-out;
-  }
+.blogPost:hover .blogCoverImage {
+  transform: scale(0.9);
+  filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
+  transition: all 0.5s ease-in-out;
+}
+
+.blogPost:hover .blogReviewTitle {
+  filter: drop-shadow(0px 8px 3.5px rgba(0, 0, 0, 0.3));
+  transition: all 0.5s ease-in-out;
 }
 
 .blogCoverImage {
@@ -280,4 +286,155 @@ body {
 .timestamp {
   color: #888;
   font-size: 1vw;
+}
+
+.blogSearch {
+  position: fixed;
+  top: 18%;
+  right: 5%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 5;
+}
+
+.blogSearch input {
+  background: #ecf0f3;
+  border: none;
+  outline: none;
+  width: 0;
+  padding: 0;
+  color: #36454F;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 20px;
+  transition: width 0.4s ease, box-shadow 0.3s ease;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  cursor: pointer;
+}
+
+.blogSearch input:focus {
+  width: 150px;
+  cursor: text;
+  padding: 6px 10px;
+  box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px white;
+}
+
+.blogSearch input::placeholder {
+  color: #36454F;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.blogSearch .btn-search {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.blogSearch .btn-search i {
+  font-size: 24px;
+  color: #FE5F55;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.blogSearch .btn-search:hover i {
+  color: #32e063;
+  transform: scale(1.1);
+}
+
+
+/* ---------------- MOBILE REDESIGN (≤800px) ---------------- */
+
+@media (max-width: 800px) {
+
+  /* Center entire grid so it no longer drifts right */
+  .blogContent {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 35vw;
+    justify-content: center;
+    height: auto;
+    overflow-y: visible;
+    padding-bottom: 20vw;
+  }
+
+  /* 2-column layout */
+  .blogPost {
+    width: 46%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 6%;
+  }
+
+  /* Mobile text scaling */
+  .blogReviewTitle {
+    font-size: 3.5vw;
+  }
+
+  .blogAuthorName {
+    font-size: 3vw;
+  }
+
+  .timestamp {
+    font-size: 2.5vw;
+  }
+
+  /* Bigger cover images */
+  .blogCoverImage {
+    width: 60%;
+  }
+
+  /* Page title reposition */
+  .blogPageTitle {
+    font-size: 7vw;
+    top: 8vw;
+    left: 4vw;
+  }
+
+  /* Search reposition */
+  .blogSearch {
+    top: 25vw;
+    right: 5vw;
+  }
+
+  .blogSearch input:focus {
+    width: 120px;
+  }
+
+  /* Modal scaling */
+  .addPostModal {
+    width: 94%;
+    height: 60%;
+    bottom: 8%;
+    padding: 15px;
+  }
+
+  .blogPostInput,
+  .reviewTitleInput,
+  .spotifyLinkInput,
+  .scoreInput {
+    width: 92%;
+    font-size: 12px;
+  }
+
+  .spotifyLinkInput {
+    left: 40%;
+    width: 55%;
+  }
+
+  .scoreInput {
+    width: 6vw;
+    font-size: 5vw;
+  }
+
+  /* Add post button easier to tap */
+  .addPostButton {
+    font-size: 4vw;
+    padding: 2vw 3vw;
+    bottom: 3vw;
+    right: 3vw;
+  }
 }
