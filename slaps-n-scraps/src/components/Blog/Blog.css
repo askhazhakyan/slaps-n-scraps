@@ -346,8 +346,6 @@ body {
 }
 
 
-/* ---------------- MOBILE REDESIGN (≤800px) ---------------- */
-
 @media (max-width: 800px) {
 
   /* Center entire grid so it no longer drifts right */
@@ -390,13 +388,13 @@ body {
   /* Page title reposition */
   .blogPageTitle {
     font-size: 7vw;
-    top: 8vw;
+    top: 15vw;
     left: 4vw;
   }
 
   /* Search reposition */
   .blogSearch {
-    top: 25vw;
+    top: 22.5vw;
     right: 5vw;
   }
 

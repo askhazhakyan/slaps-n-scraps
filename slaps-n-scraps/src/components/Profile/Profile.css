@@ -499,6 +499,8 @@
   .profileTitle { font-size: 5vw; }
   .profileButtonRow { width: 90%; }
   .profileBioTextarea, .profileBioDisplay { font-size: 1.05rem; height: var(--max-bio-height); min-height: var(--max-bio-height); max-height: var(--max-bio-height); display: flex; align-items: center; justify-content: center; }
+  .upf-artistCard{width: 200px; height: 200px;}
+  .upf-artistCard img {width: 180px;height: 180px;}
 }
 
 @media (max-width: 600px) {
@@ -507,4 +509,6 @@
   .profileTitle { font-size: 6vw; }
   .profileButtonRow { width: 92%; gap: 0.6rem; }
   .profileBioTextarea, .profileBioDisplay { font-size: 1rem; height: var(--max-bio-height); min-height: var(--max-bio-height); max-height: var(--max-bio-height); display: flex; align-items: center; justify-content: center; }
+  .upf-artistCard{width: 110px; height: 110px;}
+  .upf-artistCard img {width: 100px;height: 100px;}
 }

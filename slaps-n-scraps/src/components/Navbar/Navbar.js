@@ -29,13 +29,41 @@ const Navbar = () => {
         </label>
 
         <ul className="menu__box">
-          <li><Link className="menu__item" id='home' to="/" onClick={handleLinkClick}><img src={HomeLogo} alt="Home" /></Link></li>
-          <li><Link className="menu__item" to="/polls" onClick={handleLinkClick}><img src={PollLogo} alt="User Polls" /></Link></li>
-          <li><Link className="menu__item" to="/slaps" onClick={handleLinkClick}><img src={SlapsLogo} alt="Slaps" /></Link></li>
-          <li><Link className="menu__item" to="/scraps" onClick={handleLinkClick}><img src={ScrapsLogo} alt="Scraps" /></Link></li>
-          <li><Link className="menu__item" to="/editorReview" onClick={handleLinkClick}><img src={ReviewLogo} alt="Reviews" /></Link></li>
-          <li><Link className="menu__item" to="/blog" onClick={handleLinkClick}><img src={BlogLogo} alt="Blog" /></Link></li>
-          <li><Link className="menu__item" to="/info" onClick={handleLinkClick}><img src={InfoLogo} alt="Info" /></Link></li>
+          <li>
+            <Link className="menu__item" id='home' to="/" onClick={handleLinkClick}><img src={HomeLogo} alt="Home" />
+              <span className="menu__text">Home</span>
+            </Link>
+          </li>
+          <li>
+            <Link className="menu__item" to="/polls" onClick={handleLinkClick}><img src={PollLogo} alt="User Polls" />
+              <span className="menu__text">Polls</span>
+            </Link>
+          </li>
+          <li>
+            <Link className="menu__item" to="/slaps" onClick={handleLinkClick}><img src={SlapsLogo} alt="Slaps" />
+              <span className="menu__text">Weekly Slaps</span>
+            </Link>
+          </li>
+          <li>
+            <Link className="menu__item" to="/scraps" onClick={handleLinkClick}><img src={ScrapsLogo} alt="Scraps" />
+              <span className="menu__text">Weekly Scraps</span>
+            </Link>
+          </li>
+          <li>
+            <Link className="menu__item" to="/editorReview" onClick={handleLinkClick}><img src={ReviewLogo} alt="Reviews" />
+              <span className="menu__text">Editor Column</span>
+            </Link>
+          </li>
+          <li>
+            <Link className="menu__item" to="/blog" onClick={handleLinkClick}><img src={BlogLogo} alt="Blog" />
+              <span className="menu__text">User Reviews</span>
+            </Link>
+          </li>
+          <li>
+            <Link className="menu__item" to="/info" onClick={handleLinkClick}><img src={InfoLogo} alt="Info" />
+              <span className="menu__text">About</span>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

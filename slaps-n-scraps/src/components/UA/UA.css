@@ -25,7 +25,7 @@
   filter: drop-shadow(0px 0px 8px #32e063);
   border-color: #32e063;
   color: #32e063;
-  font-size: 18px;
+  transform: scale(1.1);
 }
 
 .ua-avatar-image {
@@ -115,8 +115,8 @@
 
 @media (max-width: 600px) {
   .ua-wrapper {
-    top: 1.5vw;
-    right: 10vw;
+    top: 2vw;
+    right: 12vw;
   }
 
   .ua-avatar-image {
@@ -132,6 +132,11 @@
     font-size: 0.7rem;
     padding: 0.3rem 0.6rem;
     text-align: center;
+  }
+
+  .loginButton {
+    padding: 1px 10px;
+    font-size: 12px;
   }
 }
 
