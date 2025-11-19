@@ -23,6 +23,7 @@ const Polls = () => {
   const [spotifyUrl, setSpotifyUrl] = useState('');
 
   const { user } = useUser(); // Clerk user
+  // eslint-disable-next-line
   const { openSignIn, openSignUp, signOut } = useClerk(); // Clerk auth actions
 
   const handlers = useSwipeable({
@@ -76,8 +77,8 @@ const Polls = () => {
   const fetchNewReleases = async () => {
     try {
       // Authentication credentials for the Spotify API
-      const clientId = process.env.CLIENT_ID;
-      const clientSecret = process.env.CLIENT_SECRET;
+      const clientId = process.env.REACT_APP_CLIENT_ID;
+      const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
       const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
       // Request an access token from the Spotify API

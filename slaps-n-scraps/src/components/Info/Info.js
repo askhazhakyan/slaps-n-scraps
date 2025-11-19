@@ -4,7 +4,9 @@ import './Info.css'
 import { useUser, useAuth } from '@clerk/clerk-react';
 
 const Info = () => {
+  // eslint-disable-next-line
   const { user } = useUser();
+  // eslint-disable-next-line
   const { signOut } = useAuth();  
   return (
     <div>

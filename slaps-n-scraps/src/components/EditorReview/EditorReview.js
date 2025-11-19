@@ -18,6 +18,7 @@ const EditorReview = () => {
   const [reviewTitle, setReviewTitle] = useState('');
   const [writerName, setWriterName] = useState(user ? user.fullName || user.username : '');
   const [scoreError, setScoreError] = useState('');
+  // eslint-disable-next-line
   const [spotifyInfo, setSpotifyInfo] = useState({
     title: '',
     artist: '',
@@ -117,7 +118,7 @@ const EditorReview = () => {
         method: 'post',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Basic ${btoa(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)}`,
+          'Authorization': `Basic ${btoa(`${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`)}`,
         },
         data: 'grant_type=client_credentials',
       });
@@ -203,7 +204,7 @@ const EditorReview = () => {
             <div className="postContainer">
               <img
                 src={post.spotifyInfo?.coverImage || 'default-cover-image-url'}
-                alt="Cover Image"
+                alt="Album Cover"
                 className="blogCoverImage"
               />
               <div className="postDetails">

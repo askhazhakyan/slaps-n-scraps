@@ -6,7 +6,9 @@ import Needle from '../../images/needle.png';
 import Arrow from '../../images/arrow.png';
 
 const Home = () => {
+  // eslint-disable-next-line
   const { user } = useUser();
+  // eslint-disable-next-line
   const { openSignIn, openProfile } = useClerk();
   const [newReleases, setNewReleases] = useState([]);
   const [currentReleaseIndex, setCurrentReleaseIndex] = useState(0);
@@ -33,8 +35,8 @@ const Home = () => {
   useEffect(() => {
     const fetchNewReleases = async () => {
       try {
-        const clientId = process.env.CLIENT_ID;
-        const clientSecret = process.env.CLIENT_SECRET;
+        const clientId = process.env.REACT_APP_CLIENT_ID;
+        const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         const response = await axios('https://accounts.spotify.com/api/token', {
@@ -80,6 +82,7 @@ const Home = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line
   }, [currentReleaseIndex]);
 
   useEffect(() => {

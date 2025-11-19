@@ -11,7 +11,9 @@ import BlogLogo from '../../images/navbar_icons/blog_icon.png';
 import InfoLogo from '../../images/navbar_icons/info_icon.png';
 
 const Navbar = () => {
+  // eslint-disable-next-line
   const { user } = useUser();
+  // eslint-disable-next-line
   const { signOut } = useAuth();
   const menuToggleRef = useRef(null);
 

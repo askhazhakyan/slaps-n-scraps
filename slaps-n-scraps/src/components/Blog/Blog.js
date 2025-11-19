@@ -9,6 +9,7 @@ import { useUser, useClerk } from '@clerk/clerk-react';
 const Blog = () => {
   const { user } = useUser();
   const inputRef = useRef(null);
+  // eslint-disable-next-line
   const { openSignIn, signOut } = useClerk();
 
   const [blogPosts, setBlogPosts] = useState([]);
@@ -19,6 +20,7 @@ const Blog = () => {
   const [reviewTitle, setReviewTitle] = useState('');
   const [writerName, setWriterName] = useState(user ? user.fullName || user.username : '');
   const [scoreError, setScoreError] = useState('');
+  // eslint-disable-next-line
   const [spotifyInfo, setSpotifyInfo] = useState({
     title: '',
     artist: '',
@@ -110,7 +112,7 @@ const Blog = () => {
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${btoa(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)}`,
+            Authorization: `Basic ${btoa(`${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`)}`,
           },
         }
       );
@@ -204,6 +206,7 @@ const Blog = () => {
 
       <div className="blogContent">
         {blogPosts.map((post, index) => {
+          // eslint-disable-next-line
           const isTrack = post.spotifyInfo?.trackTitle;
           const coverImage =
           post.spotifyInfo?.coverImage ||
@@ -211,6 +214,7 @@ const Blog = () => {
           post.spotifyInfo?.albumCover ||
           'default-cover-image-url';        
           const title = post.title?.trim() ? post.title : (post.spotifyInfo?.trackTitle || post.spotifyInfo?.albumTitle);
+          // eslint-disable-next-line
           const artist =
             post.spotifyInfo?.artist || post.spotifyInfo?.albumArtists || post.author;
 
@@ -221,7 +225,7 @@ const Blog = () => {
               <div className="postContainer">
                 <img
                   src={coverImage || 'default-cover-image-url'}
-                  alt="Cover Image"
+                  alt="Album Cover"
                   className="blogCoverImage"
                 />
                 <div className="postDetails">

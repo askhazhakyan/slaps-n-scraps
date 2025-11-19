@@ -13,7 +13,9 @@ const Slaps = () => {
   const slappersContainerRef = useRef(null);
   // State to manage the search query
   const [searchQuery, setSearchQuery] = useState('');
+  // eslint-disable-next-line
   const { user } = useUser();
+  // eslint-disable-next-line
   const { signOut } = useAuth();  
 
   // Fetch certified slappers data on mount
@@ -79,6 +81,7 @@ const Slaps = () => {
   useEffect(() => {
     const handleScroll = () => {
       const slappersContainer = slappersContainerRef.current;
+      // eslint-disable-next-line
       const isScrolledHorizontally = slappersContainer.scrollLeft > 0;
     };
 

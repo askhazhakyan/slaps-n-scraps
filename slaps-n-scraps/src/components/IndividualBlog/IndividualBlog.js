@@ -12,7 +12,9 @@ const IndividualBlogPost = () => {
   const { title, author } = useParams();
   const [post, setPost] = useState(null);
   const defaultCollectionName = 'blogs';
+  // eslint-disable-next-line
   const { user } = useUser();
+  // eslint-disable-next-line
   const { openSignIn } = useClerk();
 
   useEffect(() => {

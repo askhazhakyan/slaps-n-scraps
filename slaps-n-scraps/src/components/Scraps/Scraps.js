@@ -13,6 +13,7 @@ const Scraps = () => {
   const scrapsContainerRef = useRef(null);
   // State to manage the search query
   const [searchQuery, setSearchQuery] = useState('');
+  // eslint-disable-next-line
   const { user } = useUser();
 
   // Fetch certified scraps data on mount
@@ -74,6 +75,7 @@ const Scraps = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrapsContainer = scrapsContainerRef.current;
+      // eslint-disable-next-line
       const isScrolledHorizontally = scrapsContainer.scrollLeft > 0;
     };
 
