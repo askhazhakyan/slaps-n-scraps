@@ -33,8 +33,8 @@ const Home = () => {
   useEffect(() => {
     const fetchNewReleases = async () => {
       try {
-        const clientId = process.env.REACT_APP_CLIENT_ID;
-        const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
+        const clientId = process.env.CLIENT_ID;
+        const clientSecret = process.env.CLIENT_SECRET;
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         const response = await axios('https://accounts.spotify.com/api/token', {

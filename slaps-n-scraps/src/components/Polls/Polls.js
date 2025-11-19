@@ -76,8 +76,8 @@ const Polls = () => {
   const fetchNewReleases = async () => {
     try {
       // Authentication credentials for the Spotify API
-      const clientId = process.env.REACT_APP_CLIENT_ID;
-      const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
+      const clientId = process.env.CLIENT_ID;
+      const clientSecret = process.env.CLIENT_SECRET;
       const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
       // Request an access token from the Spotify API
