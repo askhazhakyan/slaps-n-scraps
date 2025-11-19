@@ -5,7 +5,6 @@ import { ClerkProvider } from '@clerk/clerk-react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// CRA uses REACT_APP_ prefix for environment variables
 const clerkPublishableKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
