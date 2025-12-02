@@ -35,44 +35,26 @@ const Home = () => {
   useEffect(() => {
     const fetchNewReleases = async () => {
       try {
-        const clientId = process.env.REACT_APP_CLIENT_ID;
-        const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-        const base64Credentials = btoa(`${clientId}:${clientSecret}`);
-
-        const response = await axios('https://accounts.spotify.com/api/token', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${base64Credentials}`,
-          },
-          data: 'grant_type=client_credentials',
-        });
-
-        const accessToken = response.data.access_token;
-
-        const newReleasesResponse = await axios.get(
-          'https://api.spotify.com/v1/browse/new-releases?limit=25',
-          { headers: { Authorization: `Bearer ${accessToken}` } }
-        );
-
-        const data = newReleasesResponse.data;
-
+        const response = await axios.get("/.netlify/functions/getNewReleases");
+        const data = response.data;
+  
         const releases = data.albums.items.map((album) => ({
           title: album.name,
-          artist: album.artists.map((artist) => artist.name).join(', '),
+          artist: album.artists.map((artist) => artist.name).join(", "),
           coverImage: album.images[0].url,
           releaseDate: album.release_date,
           link: album.id,
         }));
-
+  
         setNewReleases(releases);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchNewReleases();
   }, []);
+  
 
   useEffect(() => {
     const handleKeyDown = (event) => {

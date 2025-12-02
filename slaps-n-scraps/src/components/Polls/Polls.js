@@ -13,7 +13,6 @@ const Polls = () => {
   const [currentReleaseIndex, setCurrentReleaseIndex] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState(null);
   const [reachedEndOfList, setReachedEndOfList] = useState(false);
-  const [accessToken, setAccessToken] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isAddSongModalOpen, setAddSongModalOpen] = useState(false);
   const [userSubmittedSongs, setUserSubmittedSongs] = useState([]);
@@ -73,59 +72,29 @@ const Polls = () => {
     }
   }, []); // Empty dependency array, indicating no external dependencies
 
-  // Function to fetch new releases from the Spotify API
+  // Function to fetch new releases from Netlify function
   const fetchNewReleases = async () => {
     try {
-      // Authentication credentials for the Spotify API
-      const clientId = process.env.REACT_APP_CLIENT_ID;
-      const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-      const base64Credentials = btoa(`${clientId}:${clientSecret}`);
+      const response = await axios.get('/.netlify/functions/getNewReleases?limit=25');
+      const data = response.data;
 
-      // Request an access token from the Spotify API
-      const response = await axios('https://accounts.spotify.com/api/token', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Basic ${base64Credentials}`,
-        },
-        data: 'grant_type=client_credentials',
-      });
-
-      const accessToken = response.data.access_token;
-
-      // Fetch new releases using the obtained access token
-      const newReleasesResponse = await axios.get('https://api.spotify.com/v1/browse/new-releases?limit=25', {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-
-      const data = newReleasesResponse.data;
-
-      // Transform Spotify API response into a simplified releases array
+      // Map the data to match your component's expected structure
       const releases = data.albums.items.map((album) => ({
         id: album.id,
         title: album.name,
-        artist: album.artists.map((artist) => artist.name).join(', '),
-        coverImage: album.images[0].url,
+        artist: album.artists.map((a) => a.name).join(', '),
+        coverImage: album.images[0]?.url || '',
         releaseDate: album.release_date,
-        link: album.id,
+        link: album.id, // album ID for linking
         isUserSubmitted: false,
       }));
 
-      // Log the albums/singles and artist names
-      releases.forEach((release) => {
-        console.log(`Album/Single: ${release.title}, Artist(s): ${release.artist}`);
-      });
-
-      setAccessToken(accessToken);
       setIsLoading(false);
-
-      return releases; // Return the releases array
+      return releases;
     } catch (error) {
       console.error('Error fetching new releases:', error);
       setIsLoading(false);
-      return []; // Return an empty array in case of an error
+      return []; // Return empty array if error occurs
     }
   };
 
@@ -287,11 +256,8 @@ const Polls = () => {
         return;
       }
 
-      const response = await axios.get(`https://api.spotify.com/v1/${type}s/${id}`, {
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-      });
-
-      const data = response.data;
+      const response = await axios.get(`/.netlify/functions/getSpotifyData?type=${type}&id=${id}`);
+      const data = response.data;      
 
       let coverImage, releaseDate;
       if (type === 'track') {
@@ -346,16 +312,16 @@ const Polls = () => {
   if (isLoading) {
     return (
       <div id="trnt">
-        <div class="trnt_turntable">
-          <div class="trnt_floor"></div>
-          <div class="trnt_arm"></div>
-          <div class="trnt_vinyl">
-            <div class="trnt_wheel trnt_wheel-1"></div>
-            <div class="trnt_wheel trnt_wheel-2"></div>
-            <div class="trnt_wheel trnt_wheel-3"></div>
-            <div class="trnt_cover"></div>
-            <div class="trnt_middle"></div>
-            <div class="trnt_hole"></div>
+        <div className="trnt_turntable">
+          <div className="trnt_floor"></div>
+          <div className="trnt_arm"></div>
+          <div className="trnt_vinyl">
+            <div className="trnt_wheel trnt_wheel-1"></div>
+            <div className="trnt_wheel trnt_wheel-2"></div>
+            <div className="trnt_wheel trnt_wheel-3"></div>
+            <div className="trnt_cover"></div>
+            <div className="trnt_middle"></div>
+            <div className="trnt_hole"></div>
           </div>
         </div>
         <span className='trnt_text'>Loading...</span>

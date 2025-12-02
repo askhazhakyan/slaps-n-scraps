@@ -80,29 +80,29 @@ const EditorReview = () => {
       openSignIn();
       return;
     }
-
+  
     try {
       const scoreRegex = /^[0-9](\.[0-9])?$/;
       if (!scoreRegex.test(score)) {
         console.error('Invalid score format. Please enter a valid score.');
         return;
       }
-
+  
       const spotifyLinkRegex = /^https:\/\/open\.spotify\.com\/(track|album)\/[a-zA-Z0-9]+(?:\?[a-zA-Z0-9=&]*)?$/;
       if (!spotifyLinkRegex.test(spotifyLink)) {
         console.error('Invalid Spotify link format. Please enter a valid Spotify link.');
         return;
       }
-
+  
       const existingReviews = blogPosts.filter(
         (post) => post.author === writerName && post.link === spotifyLink
       );
-
+  
       if (existingReviews.length > 0) {
         console.error('You have already submitted a review for this song/album.');
         return;
       }
-
+  
       let type, id;
       try {
         const url = new URL(spotifyLink);
@@ -113,46 +113,33 @@ const EditorReview = () => {
         console.error('Invalid Spotify link format. Please provide a valid track or album URL.');
         return;
       }
-
-      const response = await axios('https://accounts.spotify.com/api/token', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Basic ${btoa(`${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`)}`,
-        },
-        data: 'grant_type=client_credentials',
+  
+      // Call serverless function to get Spotify data
+      const spotifyResponse = await axios.post('/.netlify/functions/getSpotifyData', {
+        type,
+        id
       });
-
-      const accessToken = response.data.access_token;
-      const apiEndpoint = type === 'track' ? 'tracks' : 'albums';
-
-      const spotifyResponse = await axios.get(`https://api.spotify.com/v1/${apiEndpoint}/${id}`, {
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-      });
-
+  
+      const spotifyData = spotifyResponse.data;
+  
       const spotifyInfo = {
-        linkTitle: type === 'track' ? spotifyResponse.data.name : spotifyResponse.data.name,
-        artist: type === 'track'
-          ? spotifyResponse.data.artists.map((artist) => artist.name).join(', ')
-          : spotifyResponse.data.artists.map((artist) => artist.name).join(', '),
-        coverImage: type === 'track'
-          ? spotifyResponse.data.album.images[0].url
-          : spotifyResponse.data.images[0].url,
+        linkTitle: type === 'track' ? spotifyData.trackTitle : spotifyData.albumTitle,
+        artist: type === 'track' ? spotifyData.trackArtists : spotifyData.albumArtists,
+        coverImage: type === 'track' ? spotifyData.trackCover : spotifyData.albumCover
       };
-
+  
       setSpotifyInfo(spotifyInfo);
-
-      const blogsCollection = collection(firestore, 'editorBlogs');
-      await addDoc(blogsCollection, {
+  
+      await addDoc(collection(firestore, 'editorBlogs'), {
         author: writerName,
         link: spotifyLink,
         postTime: Date.now(),
         review: postContent,
         score: parseFloat(score),
         title: reviewTitle,
-        spotifyInfo: spotifyInfo,
+        spotifyInfo
       });
-
+  
       setPostContent('');
       setSpotifyLink('');
       setScore('');
@@ -163,7 +150,7 @@ const EditorReview = () => {
     } catch (error) {
       console.error('Error adding blog post:', error);
     }
-  };
+  };  
 
   const navigate = useNavigate();
 

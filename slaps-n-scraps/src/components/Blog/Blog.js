@@ -74,7 +74,7 @@ const Blog = () => {
   
     try {
       // Validate score
-      const scoreRegex = /^(\d{1,2}(\.\d)?)$/;
+      const scoreRegex = /^(10(\.0)?|[0-9](\.[0-9])?)$/;
       if (!scoreRegex.test(score)) {
         console.error('Invalid score format. Please enter a valid score.');
         return;
@@ -105,41 +105,29 @@ const Blog = () => {
         return;
       }
   
-      // Get Spotify access token
-      const tokenResponse = await axios.post(
-        'https://accounts.spotify.com/api/token',
-        'grant_type=client_credentials',
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${btoa(`${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`)}`,
-          },
-        }
-      );
-  
-      const accessToken = tokenResponse.data.access_token;
-  
-      // Get Spotify data
-      const apiEndpoint = type === 'track' ? 'tracks' : 'albums';
-      const spotifyResponse = await axios.get(`https://api.spotify.com/v1/${apiEndpoint}/${id}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
+      // Call serverless function to fetch Spotify data
+      const spotifyResponse = await axios.post('/.netlify/functions/getSpotifyData', {
+        type,
+        id,
       });
+  
+      const data = spotifyResponse.data;
   
       let spotifyInfo = {};
       if (type === 'track') {
         spotifyInfo = {
-          trackTitle: spotifyResponse.data.name,
-          trackArtists: spotifyResponse.data.artists.map(a => a.name).join(', '),
-          trackCover: spotifyResponse.data.album.images[0]?.url || '',
+          trackTitle: data.name,
+          trackArtists: data.artists.map(a => a.name).join(', '),
+          trackCover: data.album.images[0]?.url || '',
           albumTitle: '',
           albumArtists: '',
           albumCover: '',
         };
       } else {
         spotifyInfo = {
-          albumTitle: spotifyResponse.data.name,
-          albumArtists: spotifyResponse.data.artists.map(a => a.name).join(', '),
-          albumCover: spotifyResponse.data.images[0]?.url || '',
+          albumTitle: data.name,
+          albumArtists: data.artists.map(a => a.name).join(', '),
+          albumCover: data.images[0]?.url || '',
           trackTitle: '',
           trackArtists: '',
           trackCover: '',

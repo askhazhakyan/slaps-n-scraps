@@ -1,0 +1,39 @@
+{
+  "version": "5",
+  "remote": {
+    "https://edge.netlify.com/": "fd941d61d88673d5f28aab283fb86fcc50f08a3bc80ee5470498fcfa88c65cfb",
+    "https://edge.netlify.com/bootstrap/config.ts": "6a2ce0e544e15e8f8883a5c18da5948e37fd0f2619f68cb31f3af53c51817025",
+    "https://edge.netlify.com/bootstrap/context.ts": "72496497b40d9e808f419efc764ecb438952a32f61ed94cd54952fc59f17f69d",
+    "https://edge.netlify.com/bootstrap/cookie.ts": "8b0baae708989ca183c6f3b4ab3d029e6abcbc2e43f93edeb0ff447b3bbc3a05",
+    "https://edge.netlify.com/bootstrap/edge_function.ts": "b8253e86aa83c67341f5cfedeba5049d77fbf84dcab7eceff7566b7728ae9b39",
+    "https://edge.netlify.com/bootstrap/globals/types.ts": "eaa6148ded3121d8dee62dd91c86e7fe76601df0f3ca8d7962243a30f4c8935f"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@clerk/clerk-react@^5.53.4",
+        "npm:@testing-library/jest-dom@^5.17.0",
+        "npm:@testing-library/react@^13.4.0",
+        "npm:@testing-library/user-event@^13.5.0",
+        "npm:axios@^1.6.0",
+        "npm:bad-words@^3.0.4",
+        "npm:cors@^2.8.5",
+        "npm:dompurify@^3.3.0",
+        "npm:express-session@^1.17.3",
+        "npm:firebase@^10.14.1",
+        "npm:gh-pages@^6.3.0",
+        "npm:history@^5.3.0",
+        "npm:node-vibrant@^4.0.3",
+        "npm:node@^21.2.0",
+        "npm:react-dom@^18.2.0",
+        "npm:react-router-dom@^6.21.3",
+        "npm:react-scripts@^5.0.1",
+        "npm:react-swipeable@^7.0.2",
+        "npm:react@^18.2.0",
+        "npm:serve@^14.2.5",
+        "npm:spotify-web-api-js@^1.5.2",
+        "npm:web-vitals@^2.1.4"
+      ]
+    }
+  }
+}
