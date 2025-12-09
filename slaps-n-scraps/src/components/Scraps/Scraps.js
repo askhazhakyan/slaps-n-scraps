@@ -130,35 +130,34 @@ const Scraps = () => {
 
         {/* Container for certified scraps with horizontal scroll */}
         <div className="scrapsContainer" ref={scrapsContainerRef}>
-          {filteredCertifiedScraps.map((scrap, index) => (
-            // Individual scrap card
-            <div key={index} className="scrapCard">
-              <div className="scrapContainerHeader">
-                <img src={Scrap} alt="Scrap Logo" className="scrapImage" />
-              </div>
-              <img className='scrapSongImage' src={scrap.coverImage} alt={`${scrap.title} Cover`} />
-              <h3 className='scrapSongTitle'>{scrap.title}</h3>
-              <p className='scrapArtistTitle'>{scrap.artist}</p>
+          {filteredCertifiedScraps.length > 0 ? (
+            filteredCertifiedScraps.map((scrap, index) => (
+              <div key={index} className="scrapCard">
+                <div className="scrapContainerHeader">
+                  <img src={Scrap} alt="Scrap Logo" className="scrapImage" />
+                </div>
+                <img className='scrapSongImage' src={scrap.coverImage} alt={`${scrap.title} Cover`} />
+                <h3 className='scrapSongTitle'>{scrap.title}</h3>
+                <p className='scrapArtistTitle'>{scrap.artist}</p>
 
-              {/* Ratings bar for Scraps component */}
-              <div className="scrapsRatingsBar">
-                <div className="scrapsBar"></div>
-                <div className="scrapsFilled" style={{ width: `${scrap.percentage}%` }}></div>
-                <p className='scrapsPercentage'>{`${Math.round(scrap.percentage)}%`}</p> 
-              </div>
+                <div className="scrapsRatingsBar">
+                  <div className="scrapsBar"></div>
+                  <div className="scrapsFilled" style={{ width: `${scrap.percentage}%` }}></div>
+                  <p className='scrapsPercentage'>{`${Math.round(scrap.percentage)}%`}</p>
+                </div>
 
-              {/* Link to song */}
-              <div className="scrapSongLink">
-                <a
-                  href={scrap.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {'LINK TO ALBUM'}
-                </a>
+                <div className="scrapSongLink">
+                  <a href={scrap.link} target="_blank" rel="noopener noreferrer">
+                    {'LINK TO ALBUM'}
+                  </a>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="noScrapsMessage">
+              <p>There aren't enough votes to show the Scraps Pile yet. <br></br>Head over to the <a href="/polls">Polls page</a> and cast your vote!</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

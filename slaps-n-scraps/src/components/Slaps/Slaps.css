@@ -15,16 +15,16 @@
 }
 
 .slappersContainer {
-  position: absolute;
-  display: flex;
-  flex-direction: row-reverse;
-  overflow-x: auto;
-  white-space: nowrap;
-  display: inline-block;
-  width: 100vw;
-  height: 100vh;
+  position: absolute; 
+  display: flex; 
+  flex-direction: row-reverse; 
+  overflow-x: auto; 
+  white-space: nowrap; 
+  display: inline-block; 
+  width: 100vw; 
+  height: 100vh; 
   left: 0;
-  top: 20%;
+  top: 15%;
   z-index: -1;
 }
 
@@ -173,6 +173,23 @@
 
 .slapsSearch input:focus ~ .btn-search i {
   color: #36454F;
+}
+
+.noSlapsMessage {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+  padding-top: 200px;
+  text-transform: capitalize;
+}
+
+.noSlapsMessage a {
+  color: #0065C7;
+  text-decoration: underline;
 }
 
 @keyframes pulse {

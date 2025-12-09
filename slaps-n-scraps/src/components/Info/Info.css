@@ -1,39 +1,103 @@
+.infoContainer{
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
 .missionStatement{
-    position: absolute;
-    left: 40%;
-    top: 10vw;
-    width: 40vw;
+  position: absolute;
+  left: 40%;
+  top: 10vw;
+  width: 40vw;
 }
 
 .missionTitle{
-    text-align: left;
-    font-size: 2vw;
-    font-weight: 800;
-    font-style: italic;
-    font-variant: all-small-caps;
+  text-align: left;
+  font-size: 2vw;
+  font-weight: 800;
+  font-style: italic;
+  font-variant: all-small-caps;
 }
 
 .mission{
-    text-align: justify;
-    font-size: 1.3vw;
-    font-weight: 600;
-    font-variant: small-caps;
+  text-align: justify;
+  font-size: 1.3vw;
+  font-weight: 600;
+  font-variant: small-caps;
 }
 
 .snsInfoLogo{
-    position: absolute;
-    top: 10%;
-    left: 5vw;
-    height: 35vw;
-    width: 35vw;
-    animation: App-logo-spin 15s infinite linear;
+  position: absolute;
+  top: 10%;
+  left: 5vw;
+  height: 35vw;
+  width: 35vw;
+  animation: App-logo-spin 15s infinite linear;
+}
+
+@media (max-width: 800px) {
+
+  .infoContainer{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      justify-content: center;
+      padding: 0;
+      gap: 0;
+      overflow: hidden;
+  }
+
+  .snsInfoLogo {
+      position: relative;
+      top: -8%;
+      left: -1%;
+      height: 75vw;
+      width: 75vw;
+      opacity: 0;
+      animation: fadeInUp 2s ease forwards;
+  }
+
+  .missionStatement {
+      position: relative;
+      left: 1%;
+      top: -12%;
+      width: 88vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: .5s;
+  }
+
+  .missionTitle {
+      font-size: 5vw;
+      text-align: center;
+      margin: 1vw 0 0 0;
+  }
+
+  .mission {
+      font-size: 3.5vw;
+      line-height: 4.8vw;
+      text-align: left;
+      margin: 1.5vw 0 0 0;
+  }
 }
 
 @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(5vw); }
+  to { opacity: 1; transform: translateY(0); }
+}

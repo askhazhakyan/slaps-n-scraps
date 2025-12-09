@@ -128,35 +128,34 @@ const Slaps = () => {
         </div>
 
         <div className="slappersContainer" ref={slappersContainerRef}>
-          {filteredCertifiedSlappers.map((slapper, index) => (
-            // Individual slapper card
-            <div key={index} className="slapperCard">
-              <div className="slapContainerHeader">
-                <img src={Slap} alt="Slap Logo" className="slapImage" />
-              </div>
-              <img className='slapSongImage' src={slapper.coverImage} alt={`${slapper.title} Cover`} />
-              <h3 className='slapSongTitle'>{slapper.title}</h3>
-              <p className='slapArtistTitle'>{slapper.artist}</p>
+          {filteredCertifiedSlappers.length > 0 ? (
+            filteredCertifiedSlappers.map((slapper, index) => (
+              <div key={index} className="slapperCard">
+                <div className="slapContainerHeader">
+                  <img src={Slap} alt="Slap Logo" className="slapImage" />
+                </div>
+                <img className='slapSongImage' src={slapper.coverImage} alt={`${slapper.title} Cover`} />
+                <h3 className='slapSongTitle'>{slapper.title}</h3>
+                <p className='slapArtistTitle'>{slapper.artist}</p>
 
-              {/* Ratings bar for Slaps component */}
-              <div className="slapsRatingsBar">
-                <div className="slapsBar"></div>
-                <div className="slapsFilled" style={{ width: `${slapper.percentage}%` }}></div>
-                <p className='slapsPercentage'>{`${Math.round(slapper.percentage)}%`}</p>
-              </div>
+                <div className="slapsRatingsBar">
+                  <div className="slapsBar"></div>
+                  <div className="slapsFilled" style={{ width: `${slapper.percentage}%` }}></div>
+                  <p className='slapsPercentage'>{`${Math.round(slapper.percentage)}%`}</p>
+                </div>
 
-              {/* Link to song */}
-              <div className="slapperSongLink">
-                <a
-                  href={slapper.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {'LINK TO ALBUM'}
-                </a>
+                <div className="slapperSongLink">
+                  <a href={slapper.link} target="_blank" rel="noopener noreferrer">
+                    {'LINK TO ALBUM'}
+                  </a>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="noSlapsMessage">
+              <p>There aren't enough votes to show certified slappers yet. <br></br> Head over to the <a href="/polls">Polls page</a> and cast your vote!</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

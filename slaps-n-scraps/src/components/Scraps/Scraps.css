@@ -24,7 +24,7 @@
   width: 100vw;
   height: 100vh;
   left: 0;
-  top: 20%;
+  top: 15%;
   z-index: -1;
 }
 
@@ -170,6 +170,31 @@
 
 .scrapsSearch input:focus ~ .btn-search i {
   color: #36454F;
+}
+
+.scrapsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  flex-wrap: wrap;
+}
+
+.noScrapsMessage {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  word-wrap: break-word;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 200px;
+  flex-direction: column;
+}
+
+.noScrapsMessage a {
+  color: #0065C7;
+  text-decoration: underline;
 }
 
 @keyframes pulse {
