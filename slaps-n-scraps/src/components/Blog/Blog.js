@@ -193,46 +193,50 @@ const Blog = () => {
       </div>
 
       <div className="blogContent">
-        {blogPosts.map((post, index) => {
-          // eslint-disable-next-line
-          const isTrack = post.spotifyInfo?.trackTitle;
-          const coverImage =
-          post.spotifyInfo?.coverImage ||
-          post.spotifyInfo?.trackCover ||
-          post.spotifyInfo?.albumCover ||
-          'default-cover-image-url';        
-          const title = post.title?.trim() ? post.title : (post.spotifyInfo?.trackTitle || post.spotifyInfo?.albumTitle);
-          // eslint-disable-next-line
-          const artist =
-            post.spotifyInfo?.artist || post.spotifyInfo?.albumArtists || post.author;
+        {blogPosts.length > 0 ? (
+          blogPosts.map((post, index) => {
+            const coverImage =
+              post.spotifyInfo?.coverImage ||
+              post.spotifyInfo?.trackCover ||
+              post.spotifyInfo?.albumCover ||
+              'default-cover-image-url';        
+            const title = post.title?.trim() ? post.title : (post.spotifyInfo?.trackTitle || post.spotifyInfo?.albumTitle);
+            const artist =
+              post.spotifyInfo?.artist || post.spotifyInfo?.albumArtists || post.author;
 
-        
-
-          return (
-            <div key={index} className="blogPost" onClick={() => redirectToIndividualBlogPost(post.title, post.author)}>
-              <div className="postContainer">
-                <img
-                  src={coverImage || 'default-cover-image-url'}
-                  alt="Album Cover"
-                  className="blogCoverImage"
-                />
-                <div className="postDetails">
-                  <p className="blogReviewTitle">{title || post.title}</p>
-                  <p className="blogAuthorName">By: {post.author}</p>
-                  <p className="timestamp">
-                    Posted on: {new Date(post.postTime).toLocaleString([], { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric'
-                    })}
-                  </p>
+            return (
+              <div key={index} className="blogPost" onClick={() => redirectToIndividualBlogPost(post.title, post.author)}>
+                <div className="postContainer">
+                  <img
+                    src={coverImage || 'default-cover-image-url'}
+                    alt="Album Cover"
+                    className="blogCoverImage"
+                  />
+                  <div className="postDetails">
+                    <p className="blogReviewTitle">{title || post.title}</p>
+                    <p className="blogAuthorName">By: {post.author}</p>
+                    <p className="timestamp">
+                      Posted on: {new Date(post.postTime).toLocaleString([], { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : searchQuery ? (
+          <div className="noResultsMessage">
+            <p>No results found for "{searchQuery}".</p>
+          </div>
+        ) : (
+          <div className="noResultsMessage">
+            <p>There are no blog posts yet. Be the first to <span>add a review</span>!</p>
+          </div>
+        )}
       </div>
-
 
       {user && (
         <button

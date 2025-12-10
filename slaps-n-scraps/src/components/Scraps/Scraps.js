@@ -153,12 +153,17 @@ const Scraps = () => {
                 </div>
               </div>
             ))
+          ) : searchQuery ? (
+            <div className="noResultsMessage">
+              <p>No results found for "{searchQuery}".</p>
+            </div>
           ) : (
             <div className="noScrapsMessage">
-              <p>There aren't enough votes to show the Scraps Pile yet. <br></br>Head over to the <a href="/polls">Polls page</a> and cast your vote!</p>
+              <p>There aren't enough votes to show the Scraps Pile yet. <br />Head over to the <a href="/polls">Polls page</a> and cast your vote!</p>
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

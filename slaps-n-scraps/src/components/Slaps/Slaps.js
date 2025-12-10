@@ -151,9 +151,13 @@ const Slaps = () => {
                 </div>
               </div>
             ))
+          ) : searchQuery ? (
+            <div className="noResultsMessage">
+              <p>No results found for "{searchQuery}".</p>
+            </div>
           ) : (
             <div className="noSlapsMessage">
-              <p>There aren't enough votes to show certified slappers yet. <br></br> Head over to the <a href="/polls">Polls page</a> and cast your vote!</p>
+              <p>There aren't enough votes to show certified slappers yet. <br /> Head over to the <a href="/polls">Polls page</a> and cast your vote!</p>
             </div>
           )}
         </div>

@@ -20,6 +20,8 @@ const Polls = () => {
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [spotifyUrl, setSpotifyUrl] = useState('');
+  const [showSwipeHints, setShowSwipeHints] = useState(true);
+
 
   const { user } = useUser(); // Clerk user
   // eslint-disable-next-line
@@ -140,34 +142,41 @@ const Polls = () => {
   // Function to handle swipe gestures and update song data in Firestore
   const handleSwipe = async (direction) => {
     if (!user) {
-      openSignIn(); // Prompt user to sign in if not authenticated
+      openSignIn();
       return;
     }
 
+    if (showSwipeHints) setShowSwipeHints(false);
+
     if (!reachedEndOfList) {
+      if (direction === 'skip') {
+        setCurrentReleaseIndex((prevIndex) => prevIndex + 1);
+        if (currentReleaseIndex + 1 === allSongs.length) {
+          setReachedEndOfList(true);
+          setVotedOnAllSongs(true);
+        }
+        return;
+      }
+  
+      // existing swipe handling for left/right
       try {
         const currentRelease = allSongs[currentReleaseIndex];
-
         const songsCollection = collection(firestore, 'songs');
         const songQuery = query(
           songsCollection,
           where('title', '==', currentRelease.title),
           where('artist', '==', currentRelease.artist)
         );
-
         const querySnapshot = await getDocs(songQuery);
-
+  
         if (!querySnapshot.empty) {
-          // Song exists in the collection, update the document
           const songDocRef = querySnapshot.docs[0].ref;
-
           await updateDoc(songDocRef, {
             totalVotes: increment(1),
             likes: direction === 'right' ? increment(1) : increment(0),
             dislikes: direction === 'left' ? increment(1) : increment(0),
           });
         } else {
-          // Song doesn't exist in the collection, add a new document
           await addDoc(songsCollection, {
             title: currentRelease.title,
             artist: currentRelease.artist,
@@ -175,17 +184,14 @@ const Polls = () => {
             likes: direction === 'right' ? 1 : 0,
             dislikes: direction === 'left' ? 1 : 0,
             coverImage: currentRelease.coverImage,
-            link: currentRelease.isUserSubmitted && getTrackIdFromUrl(currentRelease.link)
-                   ? currentRelease.albumId // <-- store album ID if track
-                   : currentRelease.link,
+            link: currentRelease.isUserSubmitted ? currentRelease.link : currentRelease.link,
             timestamp: Date.now(),
-          });          
+          });
         }
-
-        // Update the state to trigger re-render
+  
         setCurrentReleaseIndex((prevIndex) => prevIndex + 1);
         setSwipeDirection(direction);
-
+  
         if (currentReleaseIndex + 1 === allSongs.length) {
           setReachedEndOfList(true);
           setVotedOnAllSongs(true);
@@ -194,7 +200,7 @@ const Polls = () => {
         console.error('Error updating Firestore:', error);
       }
     }
-  };
+  };  
 
   // Function to handle the end of transition animations
   const handleTransitionEnd = () => {
@@ -373,6 +379,18 @@ const Polls = () => {
                 <div className="songInfoContainer">
                   {/* Album Cover */}
                   <div className="albumCover" {...handlers}>
+                  {showSwipeHints && (
+                    <>
+                      <div className="swipeHint leftHint">
+                        <span className="hintLabel">Scrap</span>
+                        <span className="hintArrow">←</span>
+                      </div>
+                      <div className="swipeHint rightHint">
+                        <span className="hintLabel">Slap</span>
+                        <span className="hintArrow">→</span>
+                      </div>
+                    </>
+                  )}
                     <img
                       src={allSongs[currentReleaseIndex]?.coverImage || ''}
                       alt={allSongs[currentReleaseIndex]?.title + ' Cover'}
@@ -403,7 +421,11 @@ const Polls = () => {
                   >
                     {'LINK TO ALBUM'}
                   </a>
-              </div>
+                </div>
+
+                <button className="skipButton" onClick={() => handleSwipe('skip')}>
+                  Skip Vote
+                </button>
             </div>
 
             <div className="poll-right">

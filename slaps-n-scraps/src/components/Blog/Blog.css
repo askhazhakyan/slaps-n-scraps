@@ -436,3 +436,21 @@ body {
     right: 3vw;
   }
 }
+
+.noResultsMessage {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center;     /* vertical centering if container has height */
+  width: 100%;
+  min-height: 200px;       /* optional: gives some vertical space */
+  text-align: center;      /* center the text itself */
+  padding: 2rem;
+  font-size: 1rem;
+  color: #666;
+  box-sizing: border-box;  /* ensures padding doesn’t break centering */
+}
+
+.noResultsMessage span {
+  font-weight: bold;
+  color: #0065C7;
+}

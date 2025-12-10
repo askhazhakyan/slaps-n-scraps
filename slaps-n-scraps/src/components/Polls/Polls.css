@@ -125,7 +125,7 @@
    color: #32e063;
    border-color: #32e063;
    text-decoration: none;
-   transition: 0.4s ease-in-out;
+   transition: 0.2s ease;
 }
 
 .scrapsButton:hover{
@@ -377,6 +377,30 @@
   font-variant: all-small-caps;
 }
 
+.skipButton {
+  background-color: #fff; /* same as Slap/Scrap buttons */
+  color: #FE5F54;
+  border: 5px solid #FE5F54;
+  border-radius: 10px;
+
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-top: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.skipButton:hover {
+  border-color: #32e063;
+  color: #32e063;
+}
+
+.skipButton:active {
+  transform: scale(0.95);
+}
+
 @media (max-width: 800px) {
 
   .poll-left, .poll-right, .poll-middle .desktop-title{
@@ -415,5 +439,56 @@
   }
   100% {
     transform:rotate(20deg);
+  }
+}
+
+.swipeHint {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  color: #FE5F54;
+  animation: pulse 1s infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.swipeHint .hintLabel {
+  font-size: 1rem;
+  font-variant: small-caps;
+}
+
+.swipeHint .hintArrow {
+  font-size: 1.5rem;
+}
+
+/* Position left and right hints */
+.leftHint {
+  left: -50px; /* adjust based on your cover size */
+}
+
+.rightHint {
+  right: -50px; /* adjust based on your cover size */
+}
+
+/* Pulsing animation */
+@keyframes pulse {
+  0% { transform: translateY(-50%) scale(1); opacity: 0.9; }
+  50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
+  100% { transform: translateY(-50%) scale(1); opacity: 0.9; }
+}
+
+/* Make sure album cover container is relative */
+.albumCover {
+  position: relative;
+}
+
+/* Optional: hide hints on desktop if you only want mobile */
+@media (min-width: 801px) {
+  .swipeHint {
+    display: none;
   }
 }

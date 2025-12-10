@@ -186,22 +186,32 @@ const EditorReview = () => {
       </div>
 
       <div className="blogContent">
-        {blogPosts.map((post, index) => (
-          <div key={index} className="blogPost" onClick={() => redirectToIndividualBlogPost(post.title, post.author)}>
-            <div className="postContainer">
-              <img
-                src={post.spotifyInfo?.coverImage || 'default-cover-image-url'}
-                alt="Album Cover"
-                className="blogCoverImage"
-              />
-              <div className="postDetails">
-                <p className="blogReviewTitle">{post.title}</p>
-                <p className="blogAuthorName">By: {post.author}</p>
-                <p className="timestamp">Posted on: {new Date(post.postTime).toLocaleString()}</p>
+        {blogPosts.length > 0 ? (
+          blogPosts.map((post, index) => (
+            <div key={index} className="blogPost" onClick={() => redirectToIndividualBlogPost(post.title, post.author)}>
+              <div className="postContainer">
+                <img
+                  src={post.spotifyInfo?.coverImage || 'default-cover-image-url'}
+                  alt="Album Cover"
+                  className="blogCoverImage"
+                />
+                <div className="postDetails">
+                  <p className="blogReviewTitle">{post.title}</p>
+                  <p className="blogAuthorName">By: {post.author}</p>
+                  <p className="timestamp">Posted on: {new Date(post.postTime).toLocaleString()}</p>
+                </div>
               </div>
             </div>
+          ))
+        ) : searchQuery ? (
+          <div className="noResultsMessage">
+            <p>No results found for "{searchQuery}".</p>
           </div>
-        ))}
+        ) : (
+          <div className="noResultsMessage">
+            <p>There are no editor reviews yet. Be the first to <span>add a review</span>!</p>
+          </div>
+        )}
       </div>
 
       <button

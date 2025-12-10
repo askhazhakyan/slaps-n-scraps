@@ -192,6 +192,16 @@
   text-decoration: underline;
 }
 
+.noResultsMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* centers vertically in roughly half the viewport height */
+  text-align: center;
+  font-size: 1.2rem;
+  color: #333; /* adjust to match your theme */
+}
+
 @keyframes pulse {
   0% {
     opacity: .8;
