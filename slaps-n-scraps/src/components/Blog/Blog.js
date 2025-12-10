@@ -201,8 +201,6 @@ const Blog = () => {
               post.spotifyInfo?.albumCover ||
               'default-cover-image-url';        
             const title = post.title?.trim() ? post.title : (post.spotifyInfo?.trackTitle || post.spotifyInfo?.albumTitle);
-            const artist =
-              post.spotifyInfo?.artist || post.spotifyInfo?.albumArtists || post.author;
 
             return (
               <div key={index} className="blogPost" onClick={() => redirectToIndividualBlogPost(post.title, post.author)}>
