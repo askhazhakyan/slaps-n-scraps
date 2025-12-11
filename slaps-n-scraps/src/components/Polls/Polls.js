@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { firestore } from '../backend/firebase';
-import { collection, getDocs, addDoc, updateDoc, increment, query, where, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, addDoc, updateDoc, increment, query, where, writeBatch, orderBy } from 'firebase/firestore';
 import { useSwipeable } from 'react-swipeable';
-import { useUser, useClerk } from '@clerk/clerk-react'; // <-- Clerk hooks
+import { useUser, useClerk } from '@clerk/clerk-react';
 import axios from 'axios';
 import './Polls.css';
 
-// The main Polls component responsible for managing and displaying song polls.
 const Polls = () => {
-  // State variables to manage component state
   const [newReleases, setNewReleases] = useState([]);
   const [currentReleaseIndex, setCurrentReleaseIndex] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState(null);
@@ -23,15 +21,15 @@ const Polls = () => {
   const [showSwipeHints, setShowSwipeHints] = useState(true);
 
 
-  const { user } = useUser(); // Clerk user
+  const { user } = useUser();
   // eslint-disable-next-line
-  const { openSignIn, openSignUp, signOut } = useClerk(); // Clerk auth actions
+  const { openSignIn, openSignUp, signOut } = useClerk();
 
   const handlers = useSwipeable({
     onSwipedLeft: () => handleSwipe('left'),
     onSwipedRight: () => handleSwipe('right'),
-    preventDefaultTouchmoveEvent: true, // Optional: Prevent default behavior on touchmove
-    trackMouse: true, // Optional: Enable swipe detection for mouse events (for desktop)
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
   });
 
   // Function to delete outdated user-submitted songs from Firestore
@@ -43,18 +41,16 @@ const Polls = () => {
       const now = Date.now();
       const batch = writeBatch(firestore);
 
-      // Iterate over user submitted songs and add outdated ones to the batch
       userSubmittedSongsSnapshot.forEach((doc) => {
         const songData = doc.data();
         const songTimestamp = songData.timestamp || 0;
-        const weekInMillis = 7 * 24 * 60 * 60 * 1000;
+        const weekInMillis = 604800000;
 
         if (now - songTimestamp > weekInMillis) {
           batch.delete(doc.ref);
         }
       });
 
-      // Commit the batched deletion
       await batch.commit();
 
     } catch (error) {
@@ -66,13 +62,14 @@ const Polls = () => {
   const fetchUserSubmittedSongs = useCallback(async () => {
     try {
       const userSubmittedSongsCollection = collection(firestore, 'userSubmittedSongs');
-      const userSubmittedSongsSnapshot = await getDocs(userSubmittedSongsCollection);
+      const q = query(userSubmittedSongsCollection, orderBy('timestamp', 'asc')); // oldest first
+      const userSubmittedSongsSnapshot = await getDocs(q);
       const userSongs = userSubmittedSongsSnapshot.docs.map((doc) => doc.data());
       setUserSubmittedSongs(userSongs);
     } catch (error) {
       console.error('Error fetching user-submitted songs:', error);
     }
-  }, []); // Empty dependency array, indicating no external dependencies
+  }, []);
 
   // Function to fetch new releases from Netlify function
   const fetchNewReleases = async () => {
@@ -80,14 +77,13 @@ const Polls = () => {
       const response = await axios.get('/.netlify/functions/getNewReleases?limit=25');
       const data = response.data;
 
-      // Map the data to match your component's expected structure
       const releases = data.albums.items.map((album) => ({
         id: album.id,
         title: album.name,
         artist: album.artists.map((a) => a.name).join(', '),
         coverImage: album.images[0]?.url || '',
         releaseDate: album.release_date,
-        link: album.id, // album ID for linking
+        link: album.id,
         isUserSubmitted: false,
       }));
 
@@ -96,7 +92,7 @@ const Polls = () => {
     } catch (error) {
       console.error('Error fetching new releases:', error);
       setIsLoading(false);
-      return []; // Return empty array if error occurs
+      return [];
     }
   };
 
@@ -132,11 +128,9 @@ const Polls = () => {
     // Schedule to fetch new releases every week
     const interval = setInterval(fetchData, 7 * 24 * 60 * 60 * 1000);
 
-    // Cleanup intervals on component unmount
     return () => clearInterval(interval);
   }, [fetchUserSubmittedSongs, deleteOutdatedUserSubmittedSongs]);
 
-  // useMemo hook to combine new releases and user submitted songs into a single array
   const allSongs = useMemo(() => [...newReleases, ...userSubmittedSongs], [newReleases, userSubmittedSongs]);
 
   // Function to handle swipe gestures and update song data in Firestore
@@ -158,7 +152,6 @@ const Polls = () => {
         return;
       }
   
-      // existing swipe handling for left/right
       try {
         const currentRelease = allSongs[currentReleaseIndex];
         const songsCollection = collection(firestore, 'songs');
@@ -210,7 +203,7 @@ const Polls = () => {
   // Function to toggle the visibility of the add song modal
   const handleAddSong = () => {
     if (!user) {
-      openSignIn(); // Require authentication to submit songs
+      openSignIn();
       return;
     }
     setAddSongModalOpen((prevOpen) => !prevOpen);
@@ -223,8 +216,11 @@ const Polls = () => {
 
   // Function to extract track ID from Spotify track URL
   const getTrackIdFromUrl = (url) => {
-    const parts = url.split('/');
+    const cleanUrl = url.split("?")[0];
+  
+    const parts = cleanUrl.split('/');
     const typeIndex = parts.indexOf('track');
+  
     if (typeIndex !== -1 && typeIndex < parts.length - 1) {
       return {
         type: 'track',
@@ -233,11 +229,15 @@ const Polls = () => {
     }
     return undefined;
   };
+  
 
   // Function to extract album ID from Spotify album URL
   const getAlbumIdFromUrl = (url) => {
-    const parts = url.split('/');
+    const cleanUrl = url.split("?")[0];
+  
+    const parts = cleanUrl.split('/');
     const typeIndex = parts.indexOf('album');
+  
     if (typeIndex !== -1 && typeIndex < parts.length - 1) {
       return {
         type: 'album',
@@ -245,7 +245,7 @@ const Polls = () => {
       };
     }
     return undefined;
-  };
+  };  
 
   // Function to handle song submission form
   const handleSongSubmission = async (event) => {
@@ -464,7 +464,7 @@ const Polls = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button className='pollSubmitButton' type="submit">Add Song</button>
+                <button className='pollSubmitButton' type="submit">Add Song or Album</button>
               </form>
             </div>
           )}

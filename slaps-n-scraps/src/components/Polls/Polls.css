@@ -378,7 +378,7 @@
 }
 
 .skipButton {
-  background-color: #fff; /* same as Slap/Scrap buttons */
+  background-color: #fff;
   color: #FE5F54;
   border: 5px solid #FE5F54;
   border-radius: 10px;
@@ -465,28 +465,24 @@
   font-size: 1.5rem;
 }
 
-/* Position left and right hints */
 .leftHint {
-  left: -39px; /* adjust based on your cover size */
+  left: -39px;
 }
 
 .rightHint {
-  right: -35px; /* adjust based on your cover size */
+  right: -35px;
 }
 
-/* Pulsing animation */
 @keyframes pulse {
   0% { transform: translateY(-50%) scale(1); opacity: 0.9; }
   50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
   100% { transform: translateY(-50%) scale(1); opacity: 0.9; }
 }
 
-/* Make sure album cover container is relative */
 .albumCover {
   position: relative;
 }
 
-/* Optional: hide hints on desktop if you only want mobile */
 @media (min-width: 801px) {
   .swipeHint {
     display: none;

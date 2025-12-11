@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function handler(event) {
   try {
-    const { type, id } = JSON.parse(event.body);
+    const { type, id } = event.queryStringParameters || {};
 
     if (!type || !id) {
       return {
