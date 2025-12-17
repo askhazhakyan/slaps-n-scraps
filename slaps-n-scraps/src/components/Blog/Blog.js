@@ -18,7 +18,7 @@ const Blog = () => {
   const [spotifyLink, setSpotifyLink] = useState('');
   const [score, setScore] = useState('');
   const [reviewTitle, setReviewTitle] = useState('');
-  const [writerName, setWriterName] = useState(user ? user.fullName || user.username : '');
+  const [writerName, setWriterName] = useState('');
   const [scoreError, setScoreError] = useState('');
   // eslint-disable-next-line
   const [spotifyInfo, setSpotifyInfo] = useState({
@@ -65,6 +65,12 @@ const Blog = () => {
 
     fetchBlogPosts();
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (user) {
+      setWriterName(user.fullName || user.username);
+    }
+  }, [user]);
 
   const handleAddPost = async () => {
     if (!user) {
@@ -150,7 +156,7 @@ const Blog = () => {
       setSpotifyLink('');
       setScore('');
       setReviewTitle('');
-      setWriterName(user.fullName || user.username);
+      setWriterName(user?.fullName || user?.username || '');
       setAddPostModalOpen(false);
       window.location.reload();
   
@@ -249,7 +255,13 @@ const Blog = () => {
         <div className="addPostModal visible">
           <form>
             <legend className='formTitle'>Add a New Review</legend>
-
+            <button
+              type="button"
+              className="modalCloseButton"
+              onClick={() => setAddPostModalOpen(false)}
+            >
+              ×
+            </button>
             <div className="inputs">
               <input
                 type="text"
@@ -304,7 +316,7 @@ const Blog = () => {
               />
             </div>
 
-            <div className="inputs">
+            <div className="inputs writerRow">
               <label className='writerNameLabel'>By: </label>
               <input
                 type="text"

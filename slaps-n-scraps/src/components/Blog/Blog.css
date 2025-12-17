@@ -119,6 +119,10 @@ body {
   display: none;
 }
 
+.modalCloseButton {
+  display: none;
+}
+
 .reviewTitleInput,
 .spotifyLinkInput,
 .scoreInput {
@@ -348,7 +352,6 @@ body {
 
 @media (max-width: 800px) {
 
-  /* Center entire grid so it no longer drifts right */
   .blogContent {
     left: 50%;
     transform: translateX(-50%);
@@ -428,7 +431,6 @@ body {
     font-size: 5vw;
   }
 
-  /* Add post button easier to tap */
   .addPostButton {
     font-size: 4vw;
     padding: 2vw 3vw;
@@ -439,18 +441,197 @@ body {
 
 .noResultsMessage {
   display: flex;
-  justify-content: center; /* horizontal centering */
-  align-items: center;     /* vertical centering if container has height */
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  min-height: 200px;       /* optional: gives some vertical space */
-  text-align: center;      /* center the text itself */
+  min-height: 200px;
+  text-align: center;
   padding: 2rem;
   font-size: 1rem;
   color: #666;
-  box-sizing: border-box;  /* ensures padding doesn’t break centering */
+  box-sizing: border-box;
 }
 
 .noResultsMessage span {
   font-weight: bold;
   color: #0065C7;
+}
+
+@media (max-width: 800px) {
+
+  body {
+    overflow: hidden;
+  }
+
+  .addPostModal {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    padding: 16px;
+    background: #ecf0f3;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    z-index: 1000000;
+  }
+
+  .addPostModal form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 48px;
+  }
+
+  .modalCloseButton {
+    display: block;
+    opacity: 0.85;
+    color: #FE5F55;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    font-weight: 800;
+    cursor: pointer;
+    z-index: 1100;
+  }
+
+  .modalCloseButton:active {
+    transform: scale(0.9);
+  }
+
+  .formTitle {
+    position: static;
+    transform: none;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .inputs {
+    position: static;
+    width: 100%;
+  }
+
+  .spotifyLinkInput,
+  .scoreInput,
+  .reviewTitleInput,
+  .blogPostInput,
+  .writerNameInput {
+    position: static;
+    transform: none;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .blogPostInput {
+    min-height: 140px;
+    resize: none;
+  }
+
+  .scoreLabel,
+  .writerNameLabel,
+  .scoreErrorText {
+    position: static;
+    font-size: 14px;
+  }
+
+  .scoreRow {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .spotifyScoreRow {
+    display: flex;
+    gap: 10px;
+  }
+
+  .spotifyScoreRow .spotifyLinkInput {
+    flex: 1;
+  }
+
+  .spotifyScoreRow .scoreInput {
+    width: 72px;
+    text-align: center;
+    font-weight: 800;
+  }
+
+  .submitButton {
+    position: static;
+    width: 100%;
+    margin-top: auto;
+    padding: 14px;
+    font-size: 16px;
+    height: auto;
+  }
+
+  .addPostModal input,
+  .addPostModal textarea {
+    width: 86vw;
+    max-width: 86vw;
+  }
+
+  .scoreLabel,
+  .writerNameLabel{
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+
+    display: block;
+    width: 90vw;
+    margin: 0 auto 6px;
+
+    text-align: left !important;
+    font-weight: 800;
+    font-size: 18px;
+  }
+
+
+  .writerRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    width: 90vw;
+    margin: 0 auto;
+  }
+
+  .writerNameLabel {
+    position: static !important;
+    transform: none !important;
+    width: auto;
+    margin: 0;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .writerNameInput {
+    position: static !important;
+    transform: none !important;
+    margin-bottom: 6px;
+
+    flex: 1;
+    width: auto;
+    text-align: left;
+  }
+
+  .addPostModal .submitButton {
+    position: static !important;
+    width: 50vw;
+    margin: 12px auto 0;
+    padding: 12px;
+    font-size: 16px;
+    height: auto;
+    display: block;
+  }
 }
